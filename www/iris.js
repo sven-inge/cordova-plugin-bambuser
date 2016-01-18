@@ -57,6 +57,10 @@ Iris.toggleViewfinder = function(successCallback, errorCallback) {
     }
 }
 
+Iris.setTitle = function(title, successCallback, errorCallback) {
+    exec(successCallback, errorCallback, 'Iris', 'setTitle', [title]);
+}
+
 Iris.startBroadcast = function(username, password, successCallback, errorCallback) {
     // console.log('startBroadcast called with username ' + username);
     if (!username) errorCallback('A username is required');

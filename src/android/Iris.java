@@ -120,6 +120,18 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
             return true;
         }
 
+        if ("setTitle".equals(action)) {
+            final String title = args.getString(0);
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mBroadcaster.setTitle(title);
+                    callbackContext.success("Broadcast title updated");
+                }
+            });
+            return true;
+        }
+
         if ("startBroadcast".equals(action)) {
             final String username = args.getString(0);
             final String password = args.getString(1);
