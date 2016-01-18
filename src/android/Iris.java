@@ -192,6 +192,17 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
             return true;
         }
 
+        if ("switchCamera".equals(action)) {
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mBroadcaster.switchCamera();
+                    callbackContext.success("Camera switch requested");
+                }
+            });
+            return true;
+        }
+
         return false;
     }
 

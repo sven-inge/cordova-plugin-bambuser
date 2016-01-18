@@ -76,4 +76,8 @@ Iris.stopBroadcast = function(successCallback, errorCallback) {
     exec(successCallback, errorCallback, 'Iris', 'stopBroadcast', []);
 };
 
+Iris.switchCamera = function(successCallback, errorCallback) {
+    exec(successCallback, errorCallback, 'Iris', 'switchCamera', []);
+};
+
 module.exports = Iris;
