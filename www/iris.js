@@ -73,6 +73,21 @@ Iris.setTitle = function(title, successCallback, errorCallback) {
     exec(successCallback, errorCallback, 'Iris', 'setTitle', [title]);
 }
 
+/**
+ * Supported presets:
+ * - auto
+ *      Attempts to optimize for a high (adaptive) frame rate by also
+ *      adapting the frame quality to the observed throughput. Uses
+ *      useAutomaticResolutionSwitching() on Android and
+ *      setVideoQualityPreset('kSessionPresetAuto') on iOS.
+ *
+ * Default: Constant (platfrom-specific iris-sdk-default) frame quality
+ * with adaptive frame rate.
+ */
+Iris.setVideoQualityPreset = function(preset, successCallback, errorCallback) {
+    exec(successCallback, errorCallback, 'Iris', 'setVideoQualityPreset', [preset]);
+}
+
 Iris.startBroadcast = function(username, password, successCallback, errorCallback) {
     // console.log('startBroadcast called with username ' + username);
     if (!username) errorCallback('A username is required');

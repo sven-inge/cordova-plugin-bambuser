@@ -10,6 +10,7 @@ import android.widget.Toast;
 import android.widget.FrameLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaArgs;
@@ -163,6 +164,22 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
                 public void run() {
                     mBroadcaster.setTitle(title);
                     callbackContext.success("Broadcast title updated");
+                }
+            });
+            return true;
+        }
+
+        if ("setVideoQualityPreset".equals(action)) {
+            final String preset = args.getString(0);
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (Objects.equals("auto", preset)) {
+                        mBroadcaster.useAutomaticResolutionSwitching();
+                        callbackContext.success("Switched to video quality preset '" + preset + "'");
+                        return;
+                    }
+                    callbackContext.error("Unknown video quality preset " + preset);
                 }
             });
             return true;
