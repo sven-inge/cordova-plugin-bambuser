@@ -61,6 +61,10 @@ Iris.setCustomData = function(customData, successCallback, errorCallback) {
     exec(successCallback, errorCallback, 'Iris', 'setCustomData', [customData]);
 }
 
+Iris.setPrivateMode = function(value, successCallback, errorCallback) {
+    exec(successCallback, errorCallback, 'Iris', 'setPrivateMode', [value]);
+}
+
 Iris.setTitle = function(title, successCallback, errorCallback) {
     exec(successCallback, errorCallback, 'Iris', 'setTitle', [title]);
 }

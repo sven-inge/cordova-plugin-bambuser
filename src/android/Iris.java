@@ -132,6 +132,18 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
             return true;
         }
 
+        if ("setPrivateMode".equals(action)) {
+            final boolean value = args.getBoolean(0);
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mBroadcaster.setPrivateMode(value);
+                    callbackContext.success(value ? "Private mode enabled" : "Private mode disabled");
+                }
+            });
+            return true;
+        }
+
         if ("setTitle".equals(action)) {
             final String title = args.getString(0);
             this.cordova.getActivity().runOnUiThread(new Runnable() {
