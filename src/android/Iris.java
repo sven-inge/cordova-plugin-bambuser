@@ -120,6 +120,18 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
             return true;
         }
 
+        if ("setCustomData".equals(action)) {
+            final String customData = args.getString(0);
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mBroadcaster.setCustomData(customData);
+                    callbackContext.success("Custom data updated");
+                }
+            });
+            return true;
+        }
+
         if ("setTitle".equals(action)) {
             final String title = args.getString(0);
             this.cordova.getActivity().runOnUiThread(new Runnable() {

@@ -57,6 +57,10 @@ Iris.toggleViewfinder = function(successCallback, errorCallback) {
     }
 }
 
+Iris.setCustomData = function(customData, successCallback, errorCallback) {
+    exec(successCallback, errorCallback, 'Iris', 'setCustomData', [customData]);
+}
+
 Iris.setTitle = function(title, successCallback, errorCallback) {
     exec(successCallback, errorCallback, 'Iris', 'setTitle', [title]);
 }
