@@ -65,6 +65,10 @@ Iris.setPrivateMode = function(value, successCallback, errorCallback) {
     exec(successCallback, errorCallback, 'Iris', 'setPrivateMode', [value]);
 }
 
+Iris.setSendPosition = function(value, successCallback, errorCallback) {
+    exec(successCallback, errorCallback, 'Iris', 'setSendPosition', [value]);
+}
+
 Iris.setTitle = function(title, successCallback, errorCallback) {
     exec(successCallback, errorCallback, 'Iris', 'setTitle', [title]);
 }
