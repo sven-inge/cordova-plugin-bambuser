@@ -352,7 +352,7 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
 
     @Override
     public void onBroadcastInfoAvailable(String videoId, String url) {
-        displayToast("Broadcast with id " + videoId + " published");
+        log("Broadcast with id " + videoId + " published");
     }
 
 
