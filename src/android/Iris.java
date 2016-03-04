@@ -26,7 +26,7 @@ import com.bambuser.broadcaster.Broadcaster;
 import com.bambuser.broadcaster.BroadcastStatus;
 import com.bambuser.broadcaster.CameraError;
 import com.bambuser.broadcaster.ConnectionError;
-import com.bambuser.broadcaster.SurfaceViewWithAutoAR;
+import android.view.SurfaceView;
 
 import android.Manifest.permission;
 import android.view.Display;
@@ -43,7 +43,7 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
     private static final String LOG_PREFIX = "Iris";
     private static final int BROADCAST_PERMISSIONS_CODE = 3;
     private Iris self;
-    private SurfaceViewWithAutoAR previewSurfaceView;
+    private SurfaceView previewSurfaceView;
 
     /**
      * CordovaPlugin methods
@@ -59,7 +59,7 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
             @Override
             public void run() {
                 FrameLayout layout = (FrameLayout) webView.getView().getParent();
-                previewSurfaceView = new SurfaceViewWithAutoAR(layout.getContext());
+                previewSurfaceView = new SurfaceView(layout.getContext());
                 final Activity activity = cordova.getActivity();
                 final Window window = activity.getWindow();
 
@@ -100,13 +100,17 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    FrameLayout layout = (FrameLayout) webView.getView().getParent();
-                    RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    layout.addView(previewSurfaceView, 0, previewLayoutParams);
-
                     Point displaySize = new Point();
                     activity.getWindowManager().getDefaultDisplay().getRealSize(displaySize);
                     log("display size: " + displaySize.x + "x" + displaySize.y);
+
+                    int previewWidth = displaySize.x;
+                    int previewHeight = displaySize.x * 16/9;
+                    log("preview size: " + previewWidth + "x" + previewHeight);
+
+                    FrameLayout layout = (FrameLayout) webView.getView().getParent();
+                    RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(previewWidth, previewHeight);
+                    layout.addView(previewSurfaceView, 0, previewLayoutParams);
 
                     callbackContext.success("Viewfinder view added");
                 }
