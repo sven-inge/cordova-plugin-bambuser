@@ -360,6 +360,10 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
         log("Broadcast with id " + videoId + " published");
     }
 
+    @Override
+    public void onBroadcastIdAvailable(String broadcastId) {
+        log("Broadcast with broadcastId " + broadcastId + " published");
+    }
 
     /**
      * Private methods
