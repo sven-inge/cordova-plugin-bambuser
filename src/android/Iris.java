@@ -101,7 +101,6 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
                 public void run() {
                     FrameLayout layout = (FrameLayout) webView.getView().getParent();
                     RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    previewLayoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
                     layout.addView(previewSurfaceView, 0, previewLayoutParams);
                     callbackContext.success("Viewfinder view added");
                 }
