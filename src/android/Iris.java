@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 import android.widget.FrameLayout;
+import android.graphics.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -102,6 +103,11 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
                     FrameLayout layout = (FrameLayout) webView.getView().getParent();
                     RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                     layout.addView(previewSurfaceView, 0, previewLayoutParams);
+
+                    Point displaySize = new Point();
+                    activity.getWindowManager().getDefaultDisplay().getRealSize(displaySize);
+                    log("display size: " + displaySize.x + "x" + displaySize.y);
+
                     callbackContext.success("Viewfinder view added");
                 }
             });
