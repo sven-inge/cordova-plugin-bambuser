@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="cordova-plugin-iris" version="0.3.0">
-    <name>Iris Mobile SDK</name>
-    <description>Cordova plugin for Iris Mobile SDK</description>
-    <keywords>cordova,iris,camera</keywords>
-    <js-module src="www/iris.js" name="iris">
-        <clobbers target="iris" />
+        id="cordova-plugin-bambuser" version="0.4.0">
+    <name>Bambuser Mobile SDK</name>
+    <description>Cordova plugin for Bambuser Mobile SDK</description>
+    <keywords>cordova,bambuser,camera</keywords>
+    <js-module src="www/broadcaster.js">
+        <clobbers target="bambuser.broadcaster" />
     </js-module>
 
     <!-- android -->
@@ -23,22 +23,22 @@
             <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
             <uses-feature android:name="android.hardware.camera.front" android:required="false" />
         </config-file>
-        <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="Iris" >
-                <param name="android-package" value="com.bambuser.cordova.iris.Iris"/>
+        <config-file target="config.xml" parent="/*">
+            <feature name="CordovaBambuserBroadcaster">
+                <param name="android-package" value="com.bambuser.cordova.CordovaBambuserBroadcaster"/>
             </feature>
             <preference name="backgroundColor" value="0x00000000" /><!-- http://stackoverflow.com/a/18068662 -->
         </config-file>
-        <source-file src="src/android/Iris.java" target-dir="src/com/bambuser/cordova/iris" />
-        <source-file src="libbambuser/libbambuser-android/lib/libs/classes.jar" target-dir="libs" />
-        <source-file src="libbambuser/libbambuser-android/lib/libs/armeabi/libbambuser-accel-froyo.so" target-dir="libs/armeabi" />
-        <source-file src="libbambuser/libbambuser-android/lib/libs/armeabi/libbambuser-accel-hc.so" target-dir="libs/armeabi" />
-        <source-file src="libbambuser/libbambuser-android/lib/libs/armeabi/libbambuser-accel-ics.so" target-dir="libs/armeabi" />
-        <source-file src="libbambuser/libbambuser-android/lib/libs/armeabi/libbambuser.so" target-dir="libs/armeabi" />
-        <source-file src="libbambuser/libbambuser-android/lib/libs/armeabi-v7a/libbambuser-accel-froyo.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="libbambuser/libbambuser-android/lib/libs/armeabi-v7a/libbambuser-accel-hc.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="libbambuser/libbambuser-android/lib/libs/armeabi-v7a/libbambuser-accel-ics.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="libbambuser/libbambuser-android/lib/libs/armeabi-v7a/libbambuser.so" target-dir="libs/armeabi-v7a" />
-        <!-- resource-file src="libbambuser/libbambuser-android/libbambuser-0.9.1.aar" target="libs" / --><!-- http://stackoverflow.com/a/30757738 -->
+        <source-file src="src/android/CordovaBambuserBroadcaster.java" target-dir="src/com/bambuser/cordova" />
+        <source-file src="libbambuser-android/lib/libs/classes.jar" target-dir="libs" />
+        <source-file src="libbambuser-android/lib/libs/armeabi/libbambuser-accel-froyo.so" target-dir="libs/armeabi" />
+        <source-file src="libbambuser-android/lib/libs/armeabi/libbambuser-accel-hc.so" target-dir="libs/armeabi" />
+        <source-file src="libbambuser-android/lib/libs/armeabi/libbambuser-accel-ics.so" target-dir="libs/armeabi" />
+        <source-file src="libbambuser-android/lib/libs/armeabi/libbambuser.so" target-dir="libs/armeabi" />
+        <source-file src="libbambuser-android/lib/libs/armeabi-v7a/libbambuser-accel-froyo.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="libbambuser-android/lib/libs/armeabi-v7a/libbambuser-accel-hc.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="libbambuser-android/lib/libs/armeabi-v7a/libbambuser-accel-ics.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="libbambuser-android/lib/libs/armeabi-v7a/libbambuser.so" target-dir="libs/armeabi-v7a" />
+        <!-- resource-file src="libbambuser-android/libbambuser-0.9.1.aar" target="libs" / --><!-- http://stackoverflow.com/a/30757738 -->
     </platform>
 </plugin>

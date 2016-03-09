@@ -1,4 +1,4 @@
-package com.bambuser.cordova.iris;
+package com.bambuser.cordova;
 
 import android.app.Activity;
 import android.util.Log;
@@ -32,10 +32,10 @@ import android.content.pm.PackageManager;
 
 import android.widget.RelativeLayout;
 
-public class Iris extends CordovaPlugin implements Broadcaster.Observer {
-    private static final String LOG_PREFIX = "Iris";
+public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadcaster.Observer {
+    private static final String LOG_PREFIX = "CordovaBambuserBroadcaster";
     private static final int BROADCAST_PERMISSIONS_CODE = 3;
-    private Iris self;
+    private CordovaBambuserBroadcaster self;
     private SurfaceView previewSurfaceView;
 
     /**
