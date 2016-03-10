@@ -1,6 +1,7 @@
 var Broadcaster = {}
 
 var exec = require('cordova/exec');
+var utils = require('cordova/utils');
 
 var viewfinderVisible = false;
 var togglingViewfinder = false;
@@ -102,5 +103,31 @@ Broadcaster.stopBroadcast = function(successCallback, errorCallback) {
 Broadcaster.switchCamera = function(successCallback, errorCallback) {
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'switchCamera', []);
 };
+
+Broadcaster._eventListeners = {};
+
+Broadcaster.addEventListener = function(event, successCallback, errorCallback) {
+    var id = utils.createUUID();
+    Broadcaster._eventListeners[id] = {
+        event: event,
+        callback: successCallback,
+    };
+    return id;
+};
+
+Broadcaster.removeEventListener = function(id) {
+    delete Broadcaster._eventListeners[id];
+}
+
+Broadcaster._emitEvent = function(eventName, payload) {
+    for(var id in Broadcaster._eventListeners) {
+        if (Broadcaster._eventListeners.hasOwnProperty(id)) {
+            var listener = Broadcaster._eventListeners[id];
+            if (listener.event === eventName) {
+                listener.callback(payload);
+            }
+        }
+    }
+}
 
 module.exports = Broadcaster;
