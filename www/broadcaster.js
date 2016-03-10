@@ -139,6 +139,7 @@ Broadcaster._ensureSubscribed = function() {
 
     exec(function(status) {
         console.log('connectionStatusChange: ' + status);
+        Broadcaster._emitEvent('connectionStatusChange', status);
     }, function(e) {
         console.log('BambuserBroadcaster: failed to subscribe to onConnectionStatusChange', e);
     }, 'BambuserBroadcaster', 'onConnectionStatusChange', []);
