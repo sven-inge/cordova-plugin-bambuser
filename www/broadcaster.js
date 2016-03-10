@@ -93,7 +93,22 @@ Broadcaster.startBroadcast = function(username, password, successCallback, error
     // console.log('startBroadcast called with username ' + username);
     if (!username) errorCallback('A username is required');
     if (!password) errorCallback('A password is required');
-    exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'startBroadcast', [username, password]);
+
+    exec(function(response) {
+        var id = Broadcaster.addEventListener('connectionStatusChange', function(status) {
+            if (status === 'capturing') {
+                Broadcaster.removeEventListener(id);
+                successCallback(status);
+                return;
+            }
+            if (status === 'finishing' || status === 'idle') {
+                console.log('Broadcaster.startBroadcast: Broadcasting stopped before reaching capture state');
+                Broadcaster.removeEventListener(id);
+                errorCallback(status);
+                return;
+            }
+        });
+    }, errorCallback, 'CordovaBambuserBroadcaster', 'startBroadcast', [username, password]);
 };
 
 Broadcaster.stopBroadcast = function(successCallback, errorCallback) {
