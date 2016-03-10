@@ -210,7 +210,7 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
                         // initLocalRecording();
                         log("Starting broadcast");
                         mBroadcaster.startBroadcast(username, password);
-                        callbackContext.success("Broadcast started");
+                        callbackContext.success("Broadcast starting");
                     } else {
                         log("Insufficient permissions to broadcast, requesting permissions");
                         List<String> permissions = new ArrayList<String>();
