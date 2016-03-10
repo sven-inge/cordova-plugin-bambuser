@@ -112,6 +112,7 @@ Broadcaster.addEventListener = function(event, successCallback, errorCallback) {
         event: event,
         callback: successCallback,
     };
+    Broadcaster._ensureSubscribed();
     return id;
 };
 
@@ -129,5 +130,18 @@ Broadcaster._emitEvent = function(eventName, payload) {
         }
     }
 }
+
+Broadcaster._isSubscribed = false;
+
+Broadcaster._ensureSubscribed = function() {
+    if (Broadcaster._isSubscribed) return;
+    Broadcaster._isSubscribed = true;
+
+    exec(function(status) {
+        console.log('connectionStatusChange: ' + status);
+    }, function(e) {
+        console.log('BambuserBroadcaster: failed to subscribe to onConnectionStatusChange', e);
+    }, 'BambuserBroadcaster', 'onConnectionStatusChange', []);
+};
 
 module.exports = Broadcaster;

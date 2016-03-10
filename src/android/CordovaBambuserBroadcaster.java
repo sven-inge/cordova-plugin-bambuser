@@ -32,6 +32,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
     private static final int BROADCAST_PERMISSIONS_CODE = 3;
     private CordovaBambuserBroadcaster self;
     private SurfaceView previewSurfaceView;
+    private CallbackContext onConnectionStatusChangeCallbackContext;
 
     /**
      * CordovaPlugin methods
@@ -241,6 +242,16 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             return true;
         }
 
+        if ("onConnectionStatusChange".equals(action)) {
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    self.onConnectionStatusChangeCallbackContext = callbackContext;
+                }
+            });
+            return true;
+        }
+
         return false;
     }
 
@@ -315,6 +326,12 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
         }
         // mBroadcastButton.setText(status == BroadcastStatus.IDLE ? "Broadcast" : "Disconnect");
         // mSwitchButton.setEnabled(status == BroadcastStatus.IDLE);
+
+        if (this.onConnectionStatusChangeCallbackContext != null) {
+            PluginResult result = new PluginResult(PluginResult.Status.OK, status.name().toLowerCase());
+            result.setKeepCallback(true);
+            this.onConnectionStatusChangeCallbackContext.sendPluginResult(result);
+        }
     }
 
     @Override
