@@ -51,7 +51,7 @@ public class Iris extends CordovaPlugin implements Broadcaster.Observer {
 
     @Override
     public void initialize(final CordovaInterface cordova, final CordovaWebView webView) {
-        log("Iris: initialization");
+        log("initialization");
         super.initialize(cordova, webView);
         self = this;
 
