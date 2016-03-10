@@ -1,36 +1,31 @@
 package com.bambuser.cordova;
 
 import android.app.Activity;
-import android.util.Log;
-import android.view.Window;
-import android.widget.Toast;
-import android.widget.FrameLayout;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
+import android.Manifest.permission;
+import android.util.Log;
+import android.view.Display;
+import android.view.SurfaceView;
+import android.view.Window;
+import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+import com.bambuser.broadcaster.BroadcastStatus;
+import com.bambuser.broadcaster.Broadcaster;
+import com.bambuser.broadcaster.CameraError;
+import com.bambuser.broadcaster.ConnectionError;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+import org.json.JSONException;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaArgs;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.PluginResult;
-
-import org.json.JSONException;
-
-import com.bambuser.broadcaster.Broadcaster;
-import com.bambuser.broadcaster.BroadcastStatus;
-import com.bambuser.broadcaster.CameraError;
-import com.bambuser.broadcaster.ConnectionError;
-import android.view.SurfaceView;
-
-import android.Manifest.permission;
-import android.view.Display;
-import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-import android.content.pm.PackageManager;
-
-import android.widget.RelativeLayout;
 
 public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadcaster.Observer {
     private static final String LOG_PREFIX = "CordovaBambuserBroadcaster";
