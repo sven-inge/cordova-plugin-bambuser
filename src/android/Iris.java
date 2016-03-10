@@ -1,11 +1,8 @@
 package com.bambuser.cordova.iris;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.os.Build;
 import android.util.Log;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 import android.widget.FrameLayout;
 import android.graphics.Point;
@@ -31,13 +28,9 @@ import android.view.SurfaceView;
 import android.Manifest.permission;
 import android.view.Display;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Button;
-import android.widget.TextView;
 
 public class Iris extends CordovaPlugin implements Broadcaster.Observer {
     private static final String LOG_PREFIX = "Iris";
