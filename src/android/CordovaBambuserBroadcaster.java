@@ -62,14 +62,12 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
     public boolean execute(final String action, final CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
         log("Executing Cordova plugin action: " + action);
 
-        final Activity activity = this.cordova.getActivity();
-
         if ("showViewfinderBehindWebView".equals(action)) {
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Point displaySize = new Point();
-                    activity.getWindowManager().getDefaultDisplay().getRealSize(displaySize);
+                    cordova.getActivity().getWindowManager().getDefaultDisplay().getRealSize(displaySize);
                     log("display size: " + displaySize.x + "x" + displaySize.y);
 
                     int previewWidth = displaySize.x;
