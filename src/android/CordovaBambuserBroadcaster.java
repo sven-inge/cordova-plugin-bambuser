@@ -7,7 +7,6 @@ import android.Manifest.permission;
 import android.util.Log;
 import android.view.Display;
 import android.view.SurfaceView;
-import android.view.Window;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -50,7 +49,6 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
                 FrameLayout layout = (FrameLayout) webView.getView().getParent();
                 previewSurfaceView = new SurfaceView(layout.getContext());
                 final Activity activity = cordova.getActivity();
-                final Window window = activity.getWindow();
 
                 mDefaultDisplay = activity.getWindowManager().getDefaultDisplay();
                 mBroadcaster = new Broadcaster(activity, self);
@@ -65,7 +63,6 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
         log("Executing Cordova plugin action: " + action);
 
         final Activity activity = this.cordova.getActivity();
-        final Window window = activity.getWindow();
 
         if ("showViewfinderBehindWebView".equals(action)) {
             this.cordova.getActivity().runOnUiThread(new Runnable() {
