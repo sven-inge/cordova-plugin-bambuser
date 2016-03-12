@@ -56,24 +56,6 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
                 mBroadcaster = new Broadcaster(activity, self);
                 mBroadcaster.setRotation(mDefaultDisplay.getRotation());
                 mBroadcaster.setCameraSurface(previewSurfaceView);
-
-                /*
-                if (!mInPermissionRequest) {
-                    final List<String> missingPermissions = new ArrayList<String>();
-                    if (!hasPermission(permission.CAMERA)) {
-                            missingPermissions.add(permission.CAMERA);
-                    }
-                    if (!hasPermission(permission.RECORD_AUDIO)) {
-                            missingPermissions.add(permission.RECORD_AUDIO);
-                    }
-                    if (!hasPermission(permission.WRITE_EXTERNAL_STORAGE)) {
-                            missingPermissions.add(permission.WRITE_EXTERNAL_STORAGE);
-                    }
-                    if (missingPermissions.size() > 0) {
-                            requestPermissions(missingPermissions, START_PERMISSIONS_CODE);
-                    }
-                }
-                */
             }
         });
     }
