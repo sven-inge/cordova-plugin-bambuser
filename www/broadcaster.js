@@ -6,6 +6,16 @@ var utils = require('cordova/utils');
 var viewfinderVisible = false;
 var togglingViewfinder = false;
 
+Broadcaster._applicationIdSet = false;
+
+Broadcaster.setApplicationId = function(applicationId, successCallback, errorCallback) {
+    if (Broadcaster._applicationIdSet) return errorCallback('applicationId is already set');
+    if (!applicationId) return errorCallback('An applicationId is required');
+    Broadcaster._applicationIdSet = true;
+    exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setApplicationId', [applicationId]);
+}
+
+
 Broadcaster.showViewfinderBehindWebView = function(successCallback, errorCallback) {
     if (togglingViewfinder) {
         console.log('ignored multiple calls to showViewfinderBehindWebView');
@@ -59,18 +69,22 @@ Broadcaster.toggleViewfinder = function(successCallback, errorCallback) {
 }
 
 Broadcaster.setCustomData = function(customData, successCallback, errorCallback) {
+    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setCustomData', [customData]);
 }
 
 Broadcaster.setPrivateMode = function(value, successCallback, errorCallback) {
+    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setPrivateMode', [value]);
 }
 
 Broadcaster.setSendPosition = function(value, successCallback, errorCallback) {
+    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setSendPosition', [value]);
 }
 
 Broadcaster.setTitle = function(title, successCallback, errorCallback) {
+    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setTitle', [title]);
 }
 
@@ -86,13 +100,12 @@ Broadcaster.setTitle = function(title, successCallback, errorCallback) {
  * with adaptive frame rate.
  */
 Broadcaster.setVideoQualityPreset = function(preset, successCallback, errorCallback) {
+    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setVideoQualityPreset', [preset]);
 }
 
-Broadcaster.startBroadcast = function(username, password, successCallback, errorCallback) {
-    // console.log('startBroadcast called with username ' + username);
-    if (!username) errorCallback('A username is required');
-    if (!password) errorCallback('A password is required');
+Broadcaster.startBroadcast = function(successCallback, errorCallback) {
+    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
 
     exec(function(response) {
         var id = Broadcaster.addEventListener('connectionStatusChange', function(status) {
@@ -108,14 +121,16 @@ Broadcaster.startBroadcast = function(username, password, successCallback, error
                 return;
             }
         });
-    }, errorCallback, 'CordovaBambuserBroadcaster', 'startBroadcast', [username, password]);
+    }, errorCallback, 'CordovaBambuserBroadcaster', 'startBroadcast', []);
 };
 
 Broadcaster.stopBroadcast = function(successCallback, errorCallback) {
+    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'stopBroadcast', []);
 };
 
 Broadcaster.switchCamera = function(successCallback, errorCallback) {
+    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'switchCamera', []);
 };
 
@@ -157,7 +172,7 @@ Broadcaster._ensureSubscribed = function() {
         Broadcaster._emitEvent('connectionStatusChange', status);
     }, function(e) {
         console.log('BambuserBroadcaster: failed to subscribe to onConnectionStatusChange', e);
-    }, 'BambuserBroadcaster', 'onConnectionStatusChange', []);
+    }, 'CordovaBambuserBroadcaster', 'onConnectionStatusChange', []);
 };
 
 module.exports = Broadcaster;

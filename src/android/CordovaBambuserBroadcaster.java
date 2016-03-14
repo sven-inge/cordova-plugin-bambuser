@@ -42,7 +42,9 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
         log("initialization");
         super.initialize(cordova, webView);
         self = this;
+    }
 
+    private void initializeBroadcaster(String applicationId) {
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -51,7 +53,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
                 final Activity activity = cordova.getActivity();
 
                 mDefaultDisplay = activity.getWindowManager().getDefaultDisplay();
-                mBroadcaster = new Broadcaster(activity, self);
+                mBroadcaster = new Broadcaster(activity, applicationId, self);
                 mBroadcaster.setRotation(mDefaultDisplay.getRotation());
                 mBroadcaster.setCameraSurface(previewSurfaceView);
             }
@@ -66,6 +68,11 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if (previewSurfaceView == null) {
+                        callbackContext.error("Viewfinder view not initialized. Set applicationId first.");
+                        return;
+                    }
+
                     Point displaySize = new Point();
                     cordova.getActivity().getWindowManager().getDefaultDisplay().getRealSize(displaySize);
                     log("display size: " + displaySize.x + "x" + displaySize.y);
@@ -88,9 +95,26 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if (previewSurfaceView == null) {
+                        callbackContext.error("Viewfinder view not initialized. Set applicationId first.");
+                        return;
+                    }
+
                     FrameLayout layout = (FrameLayout) webView.getView().getParent();
                     layout.removeView(previewSurfaceView);
                     callbackContext.success("Viewfinder view removed");
+                }
+            });
+            return true;
+        }
+
+        if ("setApplicationId".equals(action)) {
+            final String applicationId = args.getString(0);
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    initializeBroadcaster(applicationId);
+                    callbackContext.success("Application id set");
                 }
             });
             return true;
@@ -101,6 +125,10 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if (mBroadcaster == null) {
+                        callbackContext.error("Broadcaster is not initialized. Set applicationId first.");
+                        return;
+                    };
                     mBroadcaster.setCustomData(customData);
                     callbackContext.success("Custom data updated");
                 }
@@ -113,6 +141,10 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if (mBroadcaster == null) {
+                        callbackContext.error("Broadcaster is not initialized. Set applicationId first.");
+                        return;
+                    };
                     mBroadcaster.setPrivateMode(value);
                     callbackContext.success(value ? "Private mode enabled" : "Private mode disabled");
                 }
@@ -125,6 +157,10 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if (mBroadcaster == null) {
+                        callbackContext.error("Broadcaster is not initialized. Set applicationId first.");
+                        return;
+                    };
                     mBroadcaster.setSendPosition(value);
                     callbackContext.success(value ? "Positioning enabled" : "Positioning disabled");
                 }
@@ -137,6 +173,10 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if (mBroadcaster == null) {
+                        callbackContext.error("Broadcaster is not initialized. Set applicationId first.");
+                        return;
+                    };
                     mBroadcaster.setTitle(title);
                     callbackContext.success("Broadcast title updated");
                 }
@@ -149,6 +189,10 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if (mBroadcaster == null) {
+                        callbackContext.error("Broadcaster is not initialized. Set applicationId first.");
+                        return;
+                    };
                     if (Objects.equals("auto", preset)) {
                         mBroadcaster.useAutomaticResolutionSwitching();
                         callbackContext.success("Switched to video quality preset '" + preset + "'");
@@ -161,11 +205,13 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
         }
 
         if ("startBroadcast".equals(action)) {
-            final String username = args.getString(0);
-            final String password = args.getString(1);
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if (mBroadcaster == null) {
+                        callbackContext.error("applicationId must be set first");
+                        return;
+                    };
                     if (!mBroadcaster.canStartBroadcasting()) {
                         log("Cannot start broadcasting, ignoring start request");
                         callbackContext.error("Cannot start broadcasting, ignoring start request");
@@ -175,7 +221,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
                         // lockCurrentOrientation();
                         // initLocalRecording();
                         log("Starting broadcast");
-                        mBroadcaster.startBroadcast(username, password);
+                        mBroadcaster.startBroadcast();
                         callbackContext.success("Broadcast starting");
                     } else {
                         log("Insufficient permissions to broadcast, requesting permissions");
@@ -201,6 +247,10 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if (mBroadcaster == null) {
+                        callbackContext.error("Broadcaster is not initialized. Set applicationId first.");
+                        return;
+                    };
                     mBroadcaster.stopBroadcast();
                     callbackContext.success("Broadcast stopped");
                 }
@@ -212,6 +262,10 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if (mBroadcaster == null) {
+                        callbackContext.error("Broadcaster is not initialized. Set applicationId first.");
+                        return;
+                    };
                     mBroadcaster.switchCamera();
                     callbackContext.success("Camera switch requested");
                 }
@@ -238,6 +292,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
     @Override
     public void onPause(boolean multitasking) {
         // mOrientationListener.disable();
+        if (mBroadcaster == null) return;
         mBroadcaster.onActivityPause();
     }
 
@@ -247,6 +302,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
     @Override
     public void onResume(boolean multitasking) {
         // mOrientationListener.enable();
+        if (mBroadcaster == null) return;
         mBroadcaster.setRotation(mDefaultDisplay.getRotation());
         mBroadcaster.onActivityResume();
     }
@@ -270,6 +326,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
      */
     @Override
     public void onDestroy() {
+        if (mBroadcaster == null) return;
         mBroadcaster.onActivityDestroy();
     }
 
@@ -301,8 +358,10 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             this.cordova.getActivity().getWindow().clearFlags(FLAG_KEEP_SCREEN_ON);
             // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
-        // mBroadcastButton.setText(status == BroadcastStatus.IDLE ? "Broadcast" : "Disconnect");
-        // mSwitchButton.setEnabled(status == BroadcastStatus.IDLE);
+        // if (mBroadcaster != null) {
+            // mBroadcastButton.setText(status == BroadcastStatus.IDLE ? "Broadcast" : "Disconnect");
+            // mSwitchButton.setEnabled(status == BroadcastStatus.IDLE);
+        // }
 
         if (this.onConnectionStatusChangeCallbackContext != null) {
             PluginResult result = new PluginResult(PluginResult.Status.OK, status.name().toLowerCase());
