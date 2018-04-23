@@ -1,5 +1,5 @@
 cordova-plugin-bambuser
-=======================
+-----------------------
 
 
 ## Installation
