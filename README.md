@@ -14,7 +14,13 @@ cordova-plugin-bambuser
 
 ## Installation
 
-- Unzip `libbambuser-android-x.y.x-yymmdd.zip` to `cordova-plugin-bambuser/libambuser-android`
+- Download `libbambuser-android-0.9.12-170628.zip`
+from https://dashboard.irisplatform.io/developer
+and unzip it to `cordova-plugin-bambuser/libambuser-android`
+
+In general, `cordova-plugin-bambuser` tagets a specific version of the SDK:s.
+For best results, use exactly the version mentioned above and double-check
+whether or not the targeted SDK version changes when updating `cordova-plugin-bambuser`.
 
 - In your Cordova project: `cordova plugin add path/to/cordova-plugin-bambuser`
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="cordova-plugin-bambuser" version="0.4.0">
+        id="cordova-plugin-bambuser" version="0.5.0">
     <name>Bambuser Mobile SDK</name>
     <description>Cordova plugin for Bambuser Mobile SDK</description>
     <keywords>cordova,bambuser,camera</keywords>
@@ -28,15 +28,7 @@
             <preference name="backgroundColor" value="0x00000000" /><!-- http://stackoverflow.com/a/18068662 -->
         </config-file>
         <source-file src="src/android/CordovaBambuserBroadcaster.java" target-dir="src/com/bambuser/cordova" />
-        <source-file src="libbambuser-android/lib/libs/classes.jar" target-dir="libs" />
-        <source-file src="libbambuser-android/lib/libs/armeabi/libbambuser-accel-froyo.so" target-dir="libs/armeabi" />
-        <source-file src="libbambuser-android/lib/libs/armeabi/libbambuser-accel-hc.so" target-dir="libs/armeabi" />
-        <source-file src="libbambuser-android/lib/libs/armeabi/libbambuser-accel-ics.so" target-dir="libs/armeabi" />
-        <source-file src="libbambuser-android/lib/libs/armeabi/libbambuser.so" target-dir="libs/armeabi" />
-        <source-file src="libbambuser-android/lib/libs/armeabi-v7a/libbambuser-accel-froyo.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="libbambuser-android/lib/libs/armeabi-v7a/libbambuser-accel-hc.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="libbambuser-android/lib/libs/armeabi-v7a/libbambuser-accel-ics.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="libbambuser-android/lib/libs/armeabi-v7a/libbambuser.so" target-dir="libs/armeabi-v7a" />
-        <!-- resource-file src="libbambuser-android/libbambuser-0.9.1.aar" target="libs" / --><!-- http://stackoverflow.com/a/30757738 -->
+        <resource-file src="libbambuser-android/libbambuser-0.9.12.aar" target="libbambuser/libbambuser-0.9.12.aar" />
+        <framework src="src/android/libbambuser.gradle" custom="true" type="gradleReference" />
     </platform>
 </plugin>
