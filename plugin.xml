@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="cordova-plugin-bambuser" version="0.5.0">
+        id="cordova-plugin-bambuser" version="0.6.0">
     <name>Bambuser Mobile SDK</name>
     <description>Cordova plugin for Bambuser Mobile SDK</description>
     <keywords>cordova,bambuser,camera</keywords>
@@ -30,5 +30,38 @@
         <source-file src="src/android/CordovaBambuserBroadcaster.java" target-dir="src/com/bambuser/cordova" />
         <resource-file src="libbambuser-android/libbambuser-0.9.12.aar" target="libbambuser/libbambuser-0.9.12.aar" />
         <framework src="src/android/libbambuser.gradle" custom="true" type="gradleReference" />
+    </platform>
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="CordovaBambuserBroadcaster">
+                <param name="ios-package" value="CordovaBambuserBroadcaster" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+        <header-file src="src/ios/CordovaBambuserBroadcaster.h" />
+        <source-file src="src/ios/CordovaBambuserBroadcaster.m" />
+        <header-file src="libbambuser-ios/prebuilt/include/BambuserConstants.h" target-dir="libbambuser-ios/prebuilt/include" />
+        <header-file src="libbambuser-ios/prebuilt/include/BambuserViewDelegate.h" target-dir="libbambuser-ios/prebuilt/include"/>
+        <header-file src="libbambuser-ios/prebuilt/include/libbambuser.h" target-dir="libbambuser-ios/prebuilt/include" />
+        <source-file src="libbambuser-ios/prebuilt/lib/libbambuser.a" framework="true" target-dir="libbambuser-ios/prebuilt/lib" />
+        <framework src="libz.tbd" />
+        <framework src="libc++.tbd" />
+        <framework src="AudioToolbox.framework" />
+        <framework src="AVFoundation.framework" />
+        <framework src="CoreGraphics.framework" />
+        <framework src="CoreLocation.framework" />
+        <framework src="CoreMedia.framework" />
+        <framework src="CoreVideo.framework" />
+        <framework src="Foundation.framework" />
+        <framework src="QuartzCore.framework" />
+        <framework src="SystemConfiguration.framework" />
+        <framework src="UIKit.framework" />
+        <framework src="VideoToolbox.framework" />
+        <edit-config target="NSCameraUsageDescription" file="*-Info.plist" mode="replace">
+            <string>Access camera to stream live</string>
+        </edit-config>
+        <edit-config target="NSMicrophoneUsageDescription" file="*-Info.plist" mode="replace">
+          <string>Access microphone to stream live</string>
+        </edit-config>
     </platform>
 </plugin>
