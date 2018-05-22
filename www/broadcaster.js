@@ -30,11 +30,15 @@ Broadcaster.showViewfinderBehindWebView = function(successCallback, errorCallbac
         // console.log('showViewfinderBehindWebView success');
         togglingViewfinder = false;
         viewfinderVisible = true;
-        successCallback.call(this, arguments);
+        if (successCallback) {
+          successCallback.call(this, arguments);
+        }
     }, function() {
         console.log('showViewfinderBehindWebView failure');
         togglingViewfinder = false;
-        errorCallback.call(this, arguments);
+        if (errorCallback) {
+          errorCallback.call(this, arguments);
+        }
     }, 'CordovaBambuserBroadcaster', 'showViewfinderBehindWebView', []);
 }
 
@@ -52,11 +56,15 @@ Broadcaster.hideViewfinder = function(successCallback, errorCallback) {
         // console.log('hideViewfinder success');
         togglingViewfinder = false;
         viewfinderVisible = false;
-        successCallback.call(this, arguments);
+        if (successCallback) {
+          successCallback.call(this, arguments);
+        }
     }, function() {
         console.log('hideViewfinder failure');
         togglingViewfinder = false;
-        errorCallback.call(this, arguments);
+        if (errorCallback) {
+          errorCallback.call(this, arguments);
+        }
     }, 'CordovaBambuserBroadcaster', 'hideViewfinder', []);
 }
 
