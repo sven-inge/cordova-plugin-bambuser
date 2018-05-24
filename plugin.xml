@@ -57,11 +57,14 @@
         <framework src="SystemConfiguration.framework" />
         <framework src="UIKit.framework" />
         <framework src="VideoToolbox.framework" />
+
+        <preference name="BAMBUSER_CAMERA_USAGE_DESCRIPTION" default="Access camera to stream live" />
         <edit-config target="NSCameraUsageDescription" file="*-Info.plist" mode="replace">
-            <string>Access camera to stream live</string>
+            <string>$BAMBUSER_CAMERA_USAGE_DESCRIPTION</string>
         </edit-config>
+        <preference name="BAMBUSER_MIC_USAGE_DESCRIPTION" default="Access microphone to stream live" />
         <edit-config target="NSMicrophoneUsageDescription" file="*-Info.plist" mode="replace">
-          <string>Access microphone to stream live</string>
+          <string>$BAMBUSER_MIC_USAGE_DESCRIPTION</string>
         </edit-config>
     </platform>
 </plugin>
