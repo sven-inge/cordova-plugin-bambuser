@@ -5,7 +5,7 @@ import android.graphics.Point;
 import android.Manifest.permission;
 import android.util.Log;
 import android.view.Display;
-import android.view.SurfaceView;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -14,6 +14,7 @@ import com.bambuser.broadcaster.BroadcastStatus;
 import com.bambuser.broadcaster.Broadcaster;
 import com.bambuser.broadcaster.CameraError;
 import com.bambuser.broadcaster.ConnectionError;
+import com.bambuser.broadcaster.SurfaceViewWithAutoAR;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,13 +25,14 @@ import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.PluginResult;
+import android.view.OrientationEventListener;
 
 public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadcaster.Observer {
     private static final String LOG_PREFIX = "CordovaBambuserBroadcaster";
     private static final int START_PERMISSIONS_CODE = 2;
     private static final int BROADCAST_PERMISSIONS_CODE = 3;
     private CordovaBambuserBroadcaster self;
-    private SurfaceView previewSurfaceView;
+    private SurfaceViewWithAutoAR previewSurfaceView;
     private CallbackContext onConnectionStatusChangeCallbackContext;
 
     /**
@@ -49,13 +51,24 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             @Override
             public void run() {
                 FrameLayout layout = (FrameLayout) webView.getView().getParent();
-                previewSurfaceView = new SurfaceView(layout.getContext());
+                previewSurfaceView = new SurfaceViewWithAutoAR(layout.getContext());
+                previewSurfaceView.setCropToParent(true);
                 final Activity activity = cordova.getActivity();
 
                 mDefaultDisplay = activity.getWindowManager().getDefaultDisplay();
                 mBroadcaster = new Broadcaster(activity, applicationId, self);
                 mBroadcaster.setRotation(mDefaultDisplay.getRotation());
                 mBroadcaster.setCameraSurface(previewSurfaceView);
+
+                mOrientationListener = new OrientationEventListener(layout.getContext()) {
+                    @Override
+                    public void onOrientationChanged(int orientation) {
+                        if (mBroadcaster != null && mBroadcaster.canStartBroadcasting()) {
+                            mBroadcaster.setRotation(mDefaultDisplay.getRotation());
+                        }
+                    }
+                };
+                mOrientationListener.enable();
 
                 if (!mInPermissionRequest) {
                     final List<String> missingPermissions = new ArrayList<String>();
@@ -98,7 +111,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
                     log("preview size: " + previewWidth + "x" + previewHeight);
 
                     FrameLayout layout = (FrameLayout) webView.getView().getParent();
-                    RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(previewWidth, previewHeight);
+                    RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
                     layout.addView(previewSurfaceView, 0, previewLayoutParams);
 
                     callbackContext.success("Viewfinder view added");
@@ -309,6 +322,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
     public void onPause(boolean multitasking) {
         // mOrientationListener.disable();
         if (mBroadcaster == null) return;
+        mOrientationListener.disable();
         mBroadcaster.onActivityPause();
     }
 
@@ -319,6 +333,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
     public void onResume(boolean multitasking) {
         // mOrientationListener.enable();
         if (mBroadcaster == null) return;
+        mOrientationListener.enable();
         mBroadcaster.setRotation(mDefaultDisplay.getRotation());
         mBroadcaster.onActivityResume();
     }
@@ -456,6 +471,6 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
 
     private boolean mInPermissionRequest = false;
     private Display mDefaultDisplay;
-    // private OrientationEventListener mOrientationListener;
+    private OrientationEventListener mOrientationListener;
     private Broadcaster mBroadcaster;
 }
