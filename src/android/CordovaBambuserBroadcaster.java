@@ -1,7 +1,6 @@
 package com.bambuser.cordova;
 
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.Manifest.permission;
 import android.util.Log;
@@ -414,19 +413,15 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
      * Private methods
      */
     private boolean hasPermission(String permission) {
-        try {
-            int result = (Integer) getClass().getMethod("checkSelfPermission", String.class).invoke(this, permission);
-            return result == PackageManager.PERMISSION_GRANTED;
-        } catch (Exception e) {}
-        return true;
+        // https://cordova.apache.org/docs/en/latest/guide/platforms/android/plugin.html#android-permissions
+        return cordova.hasPermission(permission);
     }
 
     private void requestPermissions(List<String> missingPermissions, int code) {
         mInPermissionRequest = true;
         String[] permissions = missingPermissions.toArray(new String[missingPermissions.size()]);
-        try {
-            getClass().getMethod("requestPermissions", String[].class, Integer.TYPE).invoke(this, permissions, code);
-        } catch (Exception e) {}
+        // https://cordova.apache.org/docs/en/latest/guide/platforms/android/plugin.html#android-permissions
+        this.cordova.requestPermissions(this, code, permissions);
     }
 
     private void displayToast(final String text) {
