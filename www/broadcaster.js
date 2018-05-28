@@ -186,21 +186,40 @@ Broadcaster.startBroadcast = function(successCallback, errorCallback) {
         errorCallback('applicationId must be set first');
         return res;
     }
-    exec(function(response) {
-        var id = Broadcaster.addEventListener('connectionStatusChange', function(status) {
-            if (status === 'capturing') {
-                Broadcaster.removeEventListener(id);
+    var startBroadcastResponseSent = false;
+    var id = Broadcaster.addEventListener('connectionStatusChange', function(status) {
+        if (status === 'capturing') {
+            Broadcaster.removeEventListener(id);
+            if (!startBroadcastResponseSent) {
+                startBroadcastResponseSent = true;
                 successCallback(status);
-                return;
             }
-            if (status === 'finishing' || status === 'idle') {
+            return;
+        }
+        if (status === 'finishing' || status === 'idle') {
+            Broadcaster.removeEventListener(id);
+            if (!startBroadcastResponseSent) {
                 console.log('Broadcaster.startBroadcast: Broadcasting stopped before reaching capture state');
-                Broadcaster.removeEventListener(id);
+                startBroadcastResponseSent = true;
                 errorCallback(status);
-                return;
             }
-        });
-    }, errorCallback, 'CordovaBambuserBroadcaster', 'startBroadcast', []);
+            return;
+        }
+    });
+    var errListenerId = Broadcaster.addEventListener('connectionError', function(status) {
+        Broadcaster.removeEventListener(errListenerId);
+        if (!startBroadcastResponseSent) {
+            startBroadcastResponseSent = true;
+            errorCallback(status);
+        }
+        return;
+    });
+    exec(function() {}, function() {
+      if (!startBroadcastResponseSent) {
+        startBroadcastResponseSent = true;
+        if (errorCallback) errorCallback.call(this, arguments);
+      }
+    }, 'CordovaBambuserBroadcaster', 'startBroadcast', []);
     return res;
 };
 
