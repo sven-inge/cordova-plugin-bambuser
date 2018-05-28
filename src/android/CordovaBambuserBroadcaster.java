@@ -36,6 +36,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
     private static final int BROADCAST_PERMISSIONS_CODE = 3;
     private CordovaBambuserBroadcaster self;
     private SurfaceViewWithAutoAR previewSurfaceView;
+    private CallbackContext onConnectionErrorCallbackContext;
     private CallbackContext onConnectionStatusChangeCallbackContext;
 
     /**
@@ -305,6 +306,16 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             return true;
         }
 
+        if ("onConnectionError".equals(action)) {
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    self.onConnectionErrorCallbackContext = callbackContext;
+                }
+            });
+            return true;
+        }
+
         if ("onConnectionStatusChange".equals(action)) {
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -410,6 +421,12 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
 
     @Override
     public void onConnectionError(final ConnectionError type, final String message) {
+        if (this.onConnectionErrorCallbackContext != null) {
+            // TODO: define a high-level vocabulary that works with both SDK:s
+            PluginResult result = new PluginResult(PluginResult.Status.OK, "undefined-error");
+            result.setKeepCallback(true);
+            this.onConnectionErrorCallbackContext.sendPluginResult(result);
+        }
         String str = type.toString();
         if (message != null) {
             str += " " + message;

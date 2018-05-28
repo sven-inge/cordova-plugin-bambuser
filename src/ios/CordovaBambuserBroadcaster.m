@@ -2,12 +2,14 @@
 
 @implementation CordovaBambuserBroadcaster {
     UIColor *originalBackgroundColor;
+    NSString *onConnectionErrorCallbackId;
     NSString *onConnectionStatusChangeCallbackId;
 }
 
 - (id) init {
     if (self = [super init]) {
         originalBackgroundColor = self.webView.backgroundColor;
+        onConnectionErrorCallbackId = nil;
         onConnectionStatusChangeCallbackId = nil;
     }
     return self;
@@ -125,8 +127,22 @@
     [self.commandDelegate sendPluginResult: [CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId: command.callbackId];
 }
 
+- (void) onConnectionError: (CDVInvokedUrlCommand*) command {
+    onConnectionErrorCallbackId = command.callbackId;
+}
+
 - (void) onConnectionStatusChange: (CDVInvokedUrlCommand*) command {
     onConnectionStatusChangeCallbackId = command.callbackId;
+}
+
+- (void) bambuserError: (enum BambuserError)errorCode message:(NSString*)errorMessage {
+    NSLog(@"bambuserError %d %@", errorCode, errorMessage);
+    if (onConnectionErrorCallbackId != nil) {
+        // TODO: define a high-level vocabulary that works with both SDK:s
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:(CDVCommandStatus)CDVCommandStatus_OK messageAsString:@"undefined-error"];
+        [result setKeepCallbackAsBool:true];
+        [self.commandDelegate sendPluginResult: result callbackId: onConnectionErrorCallbackId];
+    }
 }
 
 - (void) broadcastStarted {

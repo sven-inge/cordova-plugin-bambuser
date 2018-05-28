@@ -265,6 +265,14 @@ Broadcaster._ensureSubscribed = function() {
     Broadcaster._isSubscribed = true;
 
     exec(function(status) {
+        // TODO: define a high-level vocabulary that works with both SDK:s
+        console.log('connectionError: ' + status);
+        Broadcaster._emitEvent('connectionError', status);
+    }, function(e) {
+        console.log('BambuserBroadcaster: failed to subscribe to onConnectionError', e);
+    }, 'CordovaBambuserBroadcaster', 'onConnectionError', []);
+
+    exec(function(status) {
         console.log('connectionStatusChange: ' + status);
         Broadcaster._emitEvent('connectionStatusChange', status);
     }, function(e) {

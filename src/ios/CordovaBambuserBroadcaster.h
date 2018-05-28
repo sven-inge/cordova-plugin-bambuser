@@ -18,6 +18,7 @@
 - (void) onConnectionStatusChange: (CDVInvokedUrlCommand*) command;
 
 // BambuserViewDelegate
+- (void) bambuserError: (enum BambuserError)errorCode message:(NSString*)errorMessage;
 - (void) broadcastStarted;
 - (void) broadcastStopped;
 
