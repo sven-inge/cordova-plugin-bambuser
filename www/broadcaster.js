@@ -9,21 +9,38 @@ var togglingViewfinder = false;
 Broadcaster._applicationIdSet = false;
 
 Broadcaster.setApplicationId = function(applicationId, successCallback, errorCallback) {
-    if (Broadcaster._applicationIdSet) return errorCallback('applicationId is already set');
-    if (!applicationId) return errorCallback('An applicationId is required');
+    var res;
+    if (!successCallback && window['Promise']) {
+        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
+    }
+    if (Broadcaster._applicationIdSet) {
+        errorCallback('applicationId is already set');
+        return res;
+    }
+    if (!applicationId) {
+        errorCallback('An applicationId is required');
+        return res;
+    }
     Broadcaster._applicationIdSet = true;
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setApplicationId', [applicationId]);
+    return res;
 }
 
 
 Broadcaster.showViewfinderBehindWebView = function(successCallback, errorCallback) {
+    var res;
+    if (!successCallback && window['Promise']) {
+        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
+    }
     if (togglingViewfinder) {
         console.log('ignored multiple calls to showViewfinderBehindWebView');
-        return errorCallback();
+        errorCallback();
+        return res;
     }
     if (viewfinderVisible) {
         console.log('viewfinder is already visible');
-        return errorCallback();
+        errorCallback();
+        return res;
     }
     togglingViewfinder = true;
     exec(function() {
@@ -40,16 +57,23 @@ Broadcaster.showViewfinderBehindWebView = function(successCallback, errorCallbac
           errorCallback.call(this, arguments);
         }
     }, 'CordovaBambuserBroadcaster', 'showViewfinderBehindWebView', []);
+    return res;
 }
 
 Broadcaster.hideViewfinder = function(successCallback, errorCallback) {
+    var res;
+    if (!successCallback && window['Promise']) {
+        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
+    }
     if (togglingViewfinder) {
         console.log('ignored multiple calls to hideViewfinder');
-        return errorCallback();
+        errorCallback();
+        return res;
     }
     if (!viewfinderVisible) {
         console.log('hideViewfinder: viewfinder is already hidden');
-        return errorCallback();
+        errorCallback();
+        return res;
     }
     togglingViewfinder = true;
     exec(function() {
@@ -66,34 +90,67 @@ Broadcaster.hideViewfinder = function(successCallback, errorCallback) {
           errorCallback.call(this, arguments);
         }
     }, 'CordovaBambuserBroadcaster', 'hideViewfinder', []);
+    return res;
 }
 
 Broadcaster.toggleViewfinder = function(successCallback, errorCallback) {
     if (viewfinderVisible) {
-        Broadcaster.hideViewfinder(successCallback, errorCallback);
+        return Broadcaster.hideViewfinder(successCallback, errorCallback);
     } else {
-        Broadcaster.showViewfinderBehindWebView(successCallback, errorCallback);
+        return Broadcaster.showViewfinderBehindWebView(successCallback, errorCallback);
     }
 }
 
 Broadcaster.setCustomData = function(customData, successCallback, errorCallback) {
-    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
+    var res;
+    if (!successCallback && window['Promise']) {
+        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
+    }
+    if (!Broadcaster._applicationIdSet) {
+        errorCallback('applicationId must be set first');
+        return res;
+    }
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setCustomData', [customData]);
+    return res;
 }
 
 Broadcaster.setPrivateMode = function(value, successCallback, errorCallback) {
-    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
+    var res;
+    if (!successCallback && window['Promise']) {
+        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
+    }
+    if (!Broadcaster._applicationIdSet) {
+        errorCallback('applicationId must be set first');
+        return res;
+    }
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setPrivateMode', [value]);
+    return res;
 }
 
 Broadcaster.setSendPosition = function(value, successCallback, errorCallback) {
-    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
+    var res;
+    if (!successCallback && window['Promise']) {
+        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
+    }
+    if (!Broadcaster._applicationIdSet) {
+        errorCallback('applicationId must be set first');
+        return res;
+    }
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setSendPosition', [value]);
+    return res;
 }
 
 Broadcaster.setTitle = function(title, successCallback, errorCallback) {
-    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
+    var res;
+    if (!successCallback && window['Promise']) {
+        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
+    }
+    if (!Broadcaster._applicationIdSet) {
+        errorCallback('applicationId must be set first');
+        return res;
+    }
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setTitle', [title]);
+    return res;
 }
 
 /**
@@ -108,13 +165,27 @@ Broadcaster.setTitle = function(title, successCallback, errorCallback) {
  * with adaptive frame rate.
  */
 Broadcaster.setVideoQualityPreset = function(preset, successCallback, errorCallback) {
-    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
+    var res;
+    if (!successCallback && window['Promise']) {
+        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
+    }
+    if (!Broadcaster._applicationIdSet) {
+        errorCallback('applicationId must be set first');
+        return res;
+    }
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setVideoQualityPreset', [preset]);
+    return res;
 }
 
 Broadcaster.startBroadcast = function(successCallback, errorCallback) {
-    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
-
+    var res;
+    if (!successCallback && window['Promise']) {
+        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
+    }
+    if (!Broadcaster._applicationIdSet) {
+        errorCallback('applicationId must be set first');
+        return res;
+    }
     exec(function(response) {
         var id = Broadcaster.addEventListener('connectionStatusChange', function(status) {
             if (status === 'capturing') {
@@ -130,16 +201,34 @@ Broadcaster.startBroadcast = function(successCallback, errorCallback) {
             }
         });
     }, errorCallback, 'CordovaBambuserBroadcaster', 'startBroadcast', []);
+    return res;
 };
 
 Broadcaster.stopBroadcast = function(successCallback, errorCallback) {
-    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
+    var res;
+    if (!successCallback && window['Promise']) {
+        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
+    }
+    if (!Broadcaster._applicationIdSet) {
+        errorCallback('applicationId must be set first');
+        return res;
+    }
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'stopBroadcast', []);
+    return res;
 };
 
 Broadcaster.switchCamera = function(successCallback, errorCallback) {
+    var res;
+    if (!successCallback && window['Promise']) {
+        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
+    }
+    if (!Broadcaster._applicationIdSet) {
+        errorCallback('applicationId must be set first');
+        return res;
+    }
     if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'switchCamera', []);
+    return res;
 };
 
 Broadcaster._eventListeners = {};
