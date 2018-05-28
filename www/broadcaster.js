@@ -159,14 +159,14 @@ Broadcaster.removeEventListener = function(id) {
 }
 
 Broadcaster._emitEvent = function(eventName, payload) {
-    for(var id in Broadcaster._eventListeners) {
-        if (Broadcaster._eventListeners.hasOwnProperty(id)) {
+    Object.keys(Broadcaster._eventListeners).forEach(function(id) {
+        if (typeof Broadcaster._eventListeners[id] === 'object') {
             var listener = Broadcaster._eventListeners[id];
             if (listener.event === eventName) {
                 listener.callback(payload);
             }
         }
-    }
+    });
 }
 
 Broadcaster._isSubscribed = false;
