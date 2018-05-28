@@ -7,8 +7,6 @@
     <js-module src="www/broadcaster.js">
         <clobbers target="bambuser.broadcaster" />
     </js-module>
-
-    <!-- android -->
     <platform name="android">
         <config-file target="AndroidManifest.xml" parent="/*">
             <uses-permission android:name="android.permission.CAMERA"/>
