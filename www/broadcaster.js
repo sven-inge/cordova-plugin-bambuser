@@ -232,7 +232,15 @@ Broadcaster.stopBroadcast = function(successCallback, errorCallback) {
         errorCallback('applicationId must be set first');
         return res;
     }
-    exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'stopBroadcast', []);
+    var id = Broadcaster.addEventListener('connectionStatusChange', function(status) {
+        if (status === 'idle') {
+            console.log('Broadcaster.stopBroadcast: Broadcasting stopped');
+            Broadcaster.removeEventListener(id);
+            successCallback();
+            return;
+        }
+    });
+    exec(function() {}, errorCallback, 'CordovaBambuserBroadcaster', 'stopBroadcast', []);
     return res;
 };
 
