@@ -1,10 +1,13 @@
 package com.bambuser.cordova;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.Manifest.permission;
 import android.util.Log;
 import android.view.Display;
+import android.view.Surface;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 import android.widget.FrameLayout;
@@ -247,7 +250,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
                         return;
                     }
                     if (hasPermission(permission.CAMERA) && hasPermission(permission.RECORD_AUDIO)) {
-                        // lockCurrentOrientation();
+                        lockCurrentOrientation();
                         // initLocalRecording();
                         log("Starting broadcast");
                         mBroadcaster.startBroadcast();
@@ -387,7 +390,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
         if (status == BroadcastStatus.IDLE) {
             log("BroadcastStatus.IDLE");
             this.cordova.getActivity().getWindow().clearFlags(FLAG_KEEP_SCREEN_ON);
-            // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            this.cordova.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
         // if (mBroadcaster != null) {
             // mBroadcastButton.setText(status == BroadcastStatus.IDLE ? "Broadcast" : "Disconnect");
@@ -454,6 +457,27 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
         String[] permissions = missingPermissions.toArray(new String[missingPermissions.size()]);
         // https://cordova.apache.org/docs/en/latest/guide/platforms/android/plugin.html#android-permissions
         this.cordova.requestPermissions(this, code, permissions);
+    }
+
+    private static int getScreenOrientation(int displayRotation, int configOrientation) {
+        if (configOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (displayRotation == Surface.ROTATION_0 || displayRotation == Surface.ROTATION_90)
+                return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+            else
+                return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+        } else {
+            if (displayRotation == Surface.ROTATION_0 || displayRotation == Surface.ROTATION_270)
+                return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+            else
+                return ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+        }
+    }
+
+    private void lockCurrentOrientation() {
+        int displayRotation = cordova.getActivity().getWindowManager().getDefaultDisplay().getRotation();
+        int configOrientation = cordova.getActivity().getResources().getConfiguration().orientation;
+        int screenOrientation = getScreenOrientation(displayRotation, configOrientation);
+        cordova.getActivity().setRequestedOrientation(screenOrientation);
     }
 
     private void displayToast(final String text) {
