@@ -2,11 +2,13 @@
 
 @implementation CordovaBambuserBroadcaster {
     UIColor *originalBackgroundColor;
+    NSString *onConnectionStatusChangeCallbackId;
 }
 
 - (id) init {
     if (self = [super init]) {
         originalBackgroundColor = self.webView.backgroundColor;
+        onConnectionStatusChangeCallbackId = nil;
     }
     return self;
 }
@@ -14,6 +16,7 @@
 - (void) ensureLibbambuserIsBootstrapped {
     if (bambuserView == nil) {
         bambuserView = [[BambuserView alloc] initWithPreset: kSessionPresetAuto];
+        bambuserView.delegate = self;
     }
 }
 
@@ -98,18 +101,50 @@
     [self ensureLibbambuserIsBootstrapped];
     [bambuserView startBroadcasting];
     [self.commandDelegate sendPluginResult: [CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId: command.callbackId];
+    if (onConnectionStatusChangeCallbackId != nil) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:(CDVCommandStatus)CDVCommandStatus_OK messageAsString:@"starting"];
+        [result setKeepCallbackAsBool:true];
+        [self.commandDelegate sendPluginResult: result callbackId: onConnectionStatusChangeCallbackId];
+    }
 }
 
 - (void) stopBroadcast: (CDVInvokedUrlCommand*) command {
     [self ensureLibbambuserIsBootstrapped];
     [bambuserView stopBroadcasting];
     [self.commandDelegate sendPluginResult: [CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId: command.callbackId];
+    if (onConnectionStatusChangeCallbackId != nil) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:(CDVCommandStatus)CDVCommandStatus_OK messageAsString:@"finishing"];
+        [result setKeepCallbackAsBool:true];
+        [self.commandDelegate sendPluginResult: result callbackId: onConnectionStatusChangeCallbackId];
+    }
 }
 
 - (void) switchCamera: (CDVInvokedUrlCommand*) command {
     [self ensureLibbambuserIsBootstrapped];
     [bambuserView swapCamera];
     [self.commandDelegate sendPluginResult: [CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId: command.callbackId];
+}
+
+- (void) onConnectionStatusChange: (CDVInvokedUrlCommand*) command {
+    onConnectionStatusChangeCallbackId = command.callbackId;
+}
+
+- (void) broadcastStarted {
+    NSLog(@"Received broadcastStarted signal");
+    if (onConnectionStatusChangeCallbackId != nil) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:(CDVCommandStatus)CDVCommandStatus_OK messageAsString:@"capturing"];
+        [result setKeepCallbackAsBool:true];
+        [self.commandDelegate sendPluginResult: result callbackId: onConnectionStatusChangeCallbackId];
+    }
+}
+
+- (void) broadcastStopped {
+    NSLog(@"Received broadcastStopped signal");
+    if (onConnectionStatusChangeCallbackId != nil) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:(CDVCommandStatus)CDVCommandStatus_OK messageAsString:@"idle"];
+        [result setKeepCallbackAsBool:true];
+        [self.commandDelegate sendPluginResult: result callbackId: onConnectionStatusChangeCallbackId];
+    }
 }
 
 @end

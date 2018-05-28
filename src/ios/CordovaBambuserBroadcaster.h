@@ -1,7 +1,7 @@
 #import <Cordova/CDVPlugin.h>
 #import "libbambuser.h"
 
-@interface CordovaBambuserBroadcaster : CDVPlugin {
+@interface CordovaBambuserBroadcaster : CDVPlugin <BambuserViewDelegate> {
     BambuserView *bambuserView;
 }
 
@@ -15,5 +15,10 @@
 - (void) startBroadcast: (CDVInvokedUrlCommand*) command;
 - (void) stopBroadcast: (CDVInvokedUrlCommand*) command;
 - (void) switchCamera: (CDVInvokedUrlCommand*) command;
+- (void) onConnectionStatusChange: (CDVInvokedUrlCommand*) command;
+
+// BambuserViewDelegate
+- (void) broadcastStarted;
+- (void) broadcastStopped;
 
 @end
