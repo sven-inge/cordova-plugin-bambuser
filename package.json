@@ -1,6 +1,12 @@
 {
   "name": "cordova-plugin-bambuser",
   "version": "0.7.0",
+  "author": "Bambuser AB",
+  "homepage": "https://irisplatform.io/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bambuser/cordova-plugin-bambuser.git"
+  },
   "scripts": {
     "sdk:install:android": "wget https://dist.bambuser.com/android_sdk/libbambuser-android-0.9.12-170628.zip -O libbambuser-android-0.9.12-170628.zip && unzip -o libbambuser-android-0.9.12-170628.zip",
     "sdk:install:ios": "wget https://dist.bambuser.com/ios_sdk/libbambuser-ios-0.9.17-180103.zip -O libbambuser-ios-0.9.17-180103.zip && unzip -o libbambuser-ios-0.9.17-180103.zip",
