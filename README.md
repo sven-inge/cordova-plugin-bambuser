@@ -77,4 +77,20 @@ document.addEventListener('deviceready', async () => {
 });
 ```
 
+### TypeScript
+Typescript definitions are not currently included. As a workaround, it is often
+possible to access the plugin's window property via the array syntax and declaring
+a shortcut variable of type `any`:
+
+```javascript
+document.addEventListener('deviceready', async () => {
+  if (!window['bambuser']) {
+    alert('cordova-plugin-bambuser is not installed');
+  } else {
+    const broadcaster: any = window['bambuser']['broadcaster'];
+    // ...
+  }
+});
+```
+
 See [www/broadcaster.js](./www/broadcaster.js) for details.
