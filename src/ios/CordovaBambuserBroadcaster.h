@@ -15,6 +15,7 @@
 - (void) startBroadcast: (CDVInvokedUrlCommand*) command;
 - (void) stopBroadcast: (CDVInvokedUrlCommand*) command;
 - (void) switchCamera: (CDVInvokedUrlCommand*) command;
+- (void) onConnectionError: (CDVInvokedUrlCommand*) command;
 - (void) onConnectionStatusChange: (CDVInvokedUrlCommand*) command;
 
 // BambuserViewDelegate
