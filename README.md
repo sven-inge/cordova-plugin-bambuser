@@ -24,6 +24,8 @@ In your Cordova project, run:
 Use the Cordova-style callback-based methods of `window.bambuser`
 from within your Cordova application.
 
+### Callback-based example
+
 ```javascript
 // http://cordova.apache.org/docs/en/8.x/cordova/events/events.html#deviceready
 document.addEventListener('deviceready', onDeviceReady, false);
