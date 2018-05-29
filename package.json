@@ -3,6 +3,11 @@
   "version": "0.7.0",
   "author": "Bambuser AB",
   "homepage": "https://irisplatform.io/",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/bambuser/cordova-plugin-bambuser.git"
