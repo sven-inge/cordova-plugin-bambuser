@@ -32,7 +32,7 @@ function onDeviceReady() {
   if (!window.bambuser) {
     alert('cordova-plugin-bambuser is not installed');
   } else {
-    var broadcaster = window.bambuser;
+    var broadcaster = window.bambuser.broadcaster;
     broadcaster.setApplicationId('YOUR-APPLICATION-ID', function() {
       broadcaster.showViewfinderBehindWebView(function() {
         // maybe also set title etc here before starting
