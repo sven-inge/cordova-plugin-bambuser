@@ -24,6 +24,9 @@ In your Cordova project, run:
 Use the Cordova-style callback-based methods of `window.bambuser`
 from within your Cordova application.
 
+See [www/broadcaster.js](./www/broadcaster.js) for details.
+
+
 ### Callback-based example
 
 ```javascript
@@ -94,5 +97,3 @@ document.addEventListener('deviceready', async () => {
   }
 });
 ```
-
-See [www/broadcaster.js](./www/broadcaster.js) for details.
