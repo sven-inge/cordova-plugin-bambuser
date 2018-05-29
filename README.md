@@ -16,7 +16,7 @@ cordova-plugin-bambuser
 
 In your Cordova project, run:
 
-`cordova plugin add https://github.com/bambuser/cordova-plugin-bambuser.git#0.7.0`
+`cordova plugin add cordova-plugin-bambuser`
 
 
 ## Usage
