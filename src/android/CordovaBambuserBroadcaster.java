@@ -326,6 +326,11 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             return true;
         }
 
+        if ("onOrientationChange".equals(action)) {
+            // Web view orientation changed - handled by OrientationEventListener - do nothing
+            return true;
+        }
+
         return false;
     }
 

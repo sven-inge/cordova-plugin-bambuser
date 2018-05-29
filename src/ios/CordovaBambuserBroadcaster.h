@@ -17,6 +17,7 @@
 - (void) switchCamera: (CDVInvokedUrlCommand*) command;
 - (void) onConnectionError: (CDVInvokedUrlCommand*) command;
 - (void) onConnectionStatusChange: (CDVInvokedUrlCommand*) command;
+- (void) onOrientationChange: (CDVInvokedUrlCommand*) command;
 
 // BambuserViewDelegate
 - (void) bambuserError: (enum BambuserError)errorCode message:(NSString*)errorMessage;

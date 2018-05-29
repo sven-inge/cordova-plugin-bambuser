@@ -135,6 +135,12 @@
     onConnectionStatusChangeCallbackId = command.callbackId;
 }
 
+- (void) onOrientationChange: (CDVInvokedUrlCommand*) command {
+    // Web view orientation changed - update viewfinder
+    [bambuserView setOrientation: [UIApplication sharedApplication].statusBarOrientation];
+    [bambuserView setPreviewFrame: CGRectMake(0, 0, self.webView.bounds.size.width, self.webView.bounds.size.height)];
+}
+
 - (void) bambuserError: (enum BambuserError)errorCode message:(NSString*)errorMessage {
     NSLog(@"bambuserError %d %@", errorCode, errorMessage);
     if (onConnectionErrorCallbackId != nil) {

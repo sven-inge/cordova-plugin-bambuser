@@ -307,4 +307,12 @@ Broadcaster._ensureSubscribed = function() {
     }, 'CordovaBambuserBroadcaster', 'onConnectionStatusChange', []);
 };
 
+window.addEventListener("orientationchange", function() {
+    exec(function(status) {
+        console.log('orientationChange', screen.orientation.type);
+        Broadcaster._emitEvent('orientationChange', screen.orientation.type);
+    }, function(e) {
+    }, 'CordovaBambuserBroadcaster', 'onOrientationChange', []);
+});
+
 module.exports = Broadcaster;
