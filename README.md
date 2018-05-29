@@ -46,4 +46,35 @@ function onDeviceReady() {
 }
 ```
 
+### Promises
+For promise support, omit both callbacks:
+```javascript
+document.addEventListener('deviceready', () => {
+  const { broadcaster } = window.bambuser;
+  broadcaster.setApplicationId('YOUR-APPLICATION-ID').then(() => {
+    return broadcaster.showViewfinderBehindWebView()
+  }).then(() => {
+    // maybe also set title etc here before starting
+    // maybe move startBroadcast() to a button callback instead of starting right aways
+    return broadcaster.startBroadcast();
+  }).catch(e => console.log(e));
+}, false);
+```
+
+### async/await
+```javascript
+document.addEventListener('deviceready', async () => {
+  try {
+    const { broadcaster } = window.bambuser;
+    await broadcaster.setApplicationId('YOUR-APPLICATION-ID');
+    await broadcaster.showViewfinderBehindWebView();
+    // maybe also set title etc here before starting
+    // maybe move startBroadcast() to a button callback instead of starting right aways
+    await broadcaster.startBroadcast();
+  } catch (e) {
+    console.log(e);
+  }
+});
+```
+
 See [www/broadcaster.js](./www/broadcaster.js) for details.
