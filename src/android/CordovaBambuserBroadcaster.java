@@ -55,14 +55,6 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
                         return;
                     }
 
-                    Point displaySize = new Point();
-                    cordova.getActivity().getWindowManager().getDefaultDisplay().getRealSize(displaySize);
-                    log("display size: " + displaySize.x + "x" + displaySize.y);
-
-                    int previewWidth = displaySize.x;
-                    int previewHeight = displaySize.x * 16/9;
-                    log("preview size: " + previewWidth + "x" + previewHeight);
-
                     FrameLayout layout = (FrameLayout) webView.getView().getParent();
                     RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
                     layout.addView(previewSurfaceView, 0, previewLayoutParams);
