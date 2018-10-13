@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="cordova-plugin-bambuser" version="0.7.3">
+        id="cordova-plugin-bambuser" version="0.8.0">
     <name>Bambuser Mobile SDK</name>
     <description>Cordova plugin for Bambuser Mobile SDK</description>
     <keywords>cordova,bambuser,camera</keywords>
@@ -42,10 +42,10 @@
         <header-file src="src/ios/CordovaBambuserBroadcaster.h" />
         <source-file src="src/ios/CordovaBambuserBroadcaster.m" />
         <!-- the npm postinstall hook in package.json downloads and unzips the sdk -->
-        <header-file src="libbambuser-ios-0.9.17-180103/prebuilt/include/BambuserConstants.h" target-dir="libbambuser-ios/prebuilt/include" />
-        <header-file src="libbambuser-ios-0.9.17-180103/prebuilt/include/BambuserViewDelegate.h" target-dir="libbambuser-ios/prebuilt/include"/>
-        <header-file src="libbambuser-ios-0.9.17-180103/prebuilt/include/libbambuser.h" target-dir="libbambuser-ios/prebuilt/include" />
-        <source-file src="libbambuser-ios-0.9.17-180103/prebuilt/lib/libbambuser.a" framework="true" target-dir="libbambuser-ios/prebuilt/lib" />
+        <header-file src="libbambuser-ios-0.9.19-181012/prebuilt/include/BambuserConstants.h" target-dir="libbambuser-ios/prebuilt/include" />
+        <header-file src="libbambuser-ios-0.9.19-181012/prebuilt/include/BambuserViewDelegate.h" target-dir="libbambuser-ios/prebuilt/include"/>
+        <header-file src="libbambuser-ios-0.9.19-181012/prebuilt/include/libbambuser.h" target-dir="libbambuser-ios/prebuilt/include" />
+        <source-file src="libbambuser-ios-0.9.19-181012/prebuilt/lib/libbambuser.a" framework="true" target-dir="libbambuser-ios/prebuilt/lib" />
         <framework src="libz.tbd" />
         <framework src="libc++.tbd" />
         <framework src="AudioToolbox.framework" />
