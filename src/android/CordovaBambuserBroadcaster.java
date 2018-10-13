@@ -50,49 +50,6 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
         self = this;
     }
 
-    private void initializeBroadcaster(String applicationId) {
-        cordova.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                FrameLayout layout = (FrameLayout) webView.getView().getParent();
-                previewSurfaceView = new SurfaceViewWithAutoAR(layout.getContext());
-                previewSurfaceView.setCropToParent(true);
-                final Activity activity = cordova.getActivity();
-
-                mDefaultDisplay = activity.getWindowManager().getDefaultDisplay();
-                mBroadcaster = new Broadcaster(activity, applicationId, self);
-                mBroadcaster.setRotation(mDefaultDisplay.getRotation());
-                mBroadcaster.setCameraSurface(previewSurfaceView);
-
-                mOrientationListener = new OrientationEventListener(layout.getContext()) {
-                    @Override
-                    public void onOrientationChanged(int orientation) {
-                        if (mBroadcaster != null && mBroadcaster.canStartBroadcasting()) {
-                            mBroadcaster.setRotation(mDefaultDisplay.getRotation());
-                        }
-                    }
-                };
-                mOrientationListener.enable();
-
-                if (!mInPermissionRequest) {
-                    final List<String> missingPermissions = new ArrayList<String>();
-                    if (!hasPermission(permission.CAMERA)) {
-                        missingPermissions.add(permission.CAMERA);
-                    }
-                    if (!hasPermission(permission.RECORD_AUDIO)) {
-                        missingPermissions.add(permission.RECORD_AUDIO);
-                    }
-                    if (!hasPermission(permission.WRITE_EXTERNAL_STORAGE)) {
-                        missingPermissions.add(permission.WRITE_EXTERNAL_STORAGE);
-                    }
-                    if (missingPermissions.size() > 0) {
-                        requestPermissions(missingPermissions, START_PERMISSIONS_CODE);
-                    }
-                }
-            }
-        });
-    }
-
     @Override
     public boolean execute(final String action, final CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
         log("Executing Cordova plugin action: " + action);
@@ -469,6 +426,49 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
     /**
      * Private methods
      */
+     private void initializeBroadcaster(String applicationId) {
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                FrameLayout layout = (FrameLayout) webView.getView().getParent();
+                previewSurfaceView = new SurfaceViewWithAutoAR(layout.getContext());
+                previewSurfaceView.setCropToParent(true);
+                final Activity activity = cordova.getActivity();
+
+                mDefaultDisplay = activity.getWindowManager().getDefaultDisplay();
+                mBroadcaster = new Broadcaster(activity, applicationId, self);
+                mBroadcaster.setRotation(mDefaultDisplay.getRotation());
+                mBroadcaster.setCameraSurface(previewSurfaceView);
+
+                mOrientationListener = new OrientationEventListener(layout.getContext()) {
+                    @Override
+                    public void onOrientationChanged(int orientation) {
+                        if (mBroadcaster != null && mBroadcaster.canStartBroadcasting()) {
+                            mBroadcaster.setRotation(mDefaultDisplay.getRotation());
+                        }
+                    }
+                };
+                mOrientationListener.enable();
+
+                if (!mInPermissionRequest) {
+                    final List<String> missingPermissions = new ArrayList<String>();
+                    if (!hasPermission(permission.CAMERA)) {
+                        missingPermissions.add(permission.CAMERA);
+                    }
+                    if (!hasPermission(permission.RECORD_AUDIO)) {
+                        missingPermissions.add(permission.RECORD_AUDIO);
+                    }
+                    if (!hasPermission(permission.WRITE_EXTERNAL_STORAGE)) {
+                        missingPermissions.add(permission.WRITE_EXTERNAL_STORAGE);
+                    }
+                    if (missingPermissions.size() > 0) {
+                        requestPermissions(missingPermissions, START_PERMISSIONS_CODE);
+                    }
+                }
+            }
+        });
+    }
+
     private boolean hasPermission(String permission) {
         // https://cordova.apache.org/docs/en/latest/guide/platforms/android/plugin.html#android-permissions
         return cordova.hasPermission(permission);
