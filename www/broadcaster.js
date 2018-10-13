@@ -253,7 +253,6 @@ Broadcaster.switchCamera = function(successCallback, errorCallback) {
         errorCallback('applicationId must be set first');
         return res;
     }
-    if (!Broadcaster._applicationIdSet) return errorCallback('applicationId must be set first');
     exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'switchCamera', []);
     return res;
 };
