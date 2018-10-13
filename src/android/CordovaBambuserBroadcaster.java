@@ -31,14 +31,6 @@ import org.apache.cordova.PluginResult;
 import android.view.OrientationEventListener;
 
 public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadcaster.Observer {
-    private static final String LOG_PREFIX = "CordovaBambuserBroadcaster";
-    private static final int START_PERMISSIONS_CODE = 2;
-    private static final int BROADCAST_PERMISSIONS_CODE = 3;
-    private CordovaBambuserBroadcaster self;
-    private SurfaceViewWithAutoAR previewSurfaceView;
-    private CallbackContext onConnectionErrorCallbackContext;
-    private CallbackContext onConnectionStatusChangeCallbackContext;
-
     /**
      * CordovaPlugin methods
      */
@@ -515,6 +507,13 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
         if (toast) displayToast(text);
     }
 
+    private static final String LOG_PREFIX = "CordovaBambuserBroadcaster";
+    private static final int START_PERMISSIONS_CODE = 2;
+    private static final int BROADCAST_PERMISSIONS_CODE = 3;
+    private CordovaBambuserBroadcaster self;
+    private SurfaceViewWithAutoAR previewSurfaceView;
+    private CallbackContext onConnectionErrorCallbackContext;
+    private CallbackContext onConnectionStatusChangeCallbackContext;
     private boolean mInPermissionRequest = false;
     private Display mDefaultDisplay;
     private OrientationEventListener mOrientationListener;
