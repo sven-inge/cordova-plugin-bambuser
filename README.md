@@ -103,3 +103,47 @@ document.addEventListener('deviceready', async () => {
 
 Complete usage example:
 https://github.com/bambuser/bambuser-examplebroadcaster-ionic
+
+
+## Player usage
+
+player.js implements a wrapper for Bambuser's native player SDK:s
+https://bambuser.com/docs/playback/android-player/
+https://bambuser.com/docs/playback/ios-player/
+
+See [www/player.js](./www/player.js) for details.
+
+### async/await
+```javascript
+// https://bambuser.com/docs/key-concepts/resource-uri/
+const resourceUri = 'https://cdn.bambuser.net/broadcasts/0b9860dd-359a-67c4-51d9-d87402770319?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1482921565&da_static=1&da_ttl=0&da_signature=cacf92c6737bb60beb1ee1320ad85c0ae48b91f9c1fbcb3032f54d5cfedc7afe';
+
+document.addEventListener('deviceready', async () => {
+  try {
+    const { player } = window.bambuser;
+    await player.setApplicationId('YOUR-APPLICATION-ID');
+    await player.showPlayerBehindWebView();
+    this.player.loadBroadcast(resourceUri);
+  } catch (e) {
+    console.log(e);
+  }
+});
+```
+
+Complete usage examples, both native and javascript based:
+https://github.com/bambuser/bambuser-exampleplayer-ionic
+
+The web player is another playback option in a Cordova app,
+which does not require a plugin, just a few configuration changes:
+https://bambuser.com/docs/playback/web-player/#javascript-api
+https://github.com/bambuser/bambuser-exampleplayer-ionic/blob/0cd44e9b09e2eaf2d4ee28918ecebebbfe863935/config.xml#L9-L14
+
+However, on some less capable web view implementations, the web player
+will regularly fall back to standard HLS delivery, resulting in a bit higher latency
+during live playback, which can be a case for using the native player instead.
+
+The web player currently has a richer event vocabulary on the other hand,
+and can be used in a scrollable context unlike the cordova plugin.
+Depending on the app, it might be worth trying out both alternatives
+and perhaps use the native SDK for live streams and the web player
+for archived playback.
