@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="cordova-plugin-bambuser" version="0.7.2">
+        id="cordova-plugin-bambuser" version="0.7.3">
     <name>Bambuser Mobile SDK</name>
     <description>Cordova plugin for Bambuser Mobile SDK</description>
     <keywords>cordova,bambuser,camera</keywords>
@@ -61,12 +61,12 @@
         <framework src="VideoToolbox.framework" />
 
         <preference name="BAMBUSER_CAMERA_USAGE_DESCRIPTION" default="Access camera to stream live" />
-        <edit-config target="NSCameraUsageDescription" file="*-Info.plist" mode="replace">
+        <config-file parent="NSCameraUsageDescription" target="*-Info.plist">
             <string>$BAMBUSER_CAMERA_USAGE_DESCRIPTION</string>
-        </edit-config>
+        </config-file>
         <preference name="BAMBUSER_MIC_USAGE_DESCRIPTION" default="Access microphone to stream live" />
-        <edit-config target="NSMicrophoneUsageDescription" file="*-Info.plist" mode="replace">
-          <string>$BAMBUSER_MIC_USAGE_DESCRIPTION</string>
-        </edit-config>
+        <config-file parent="NSMicrophoneUsageDescription" target="*-Info.plist">
+            <string>$BAMBUSER_MIC_USAGE_DESCRIPTION</string>
+        </config-file>
     </platform>
 </plugin>
