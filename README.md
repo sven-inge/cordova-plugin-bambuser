@@ -19,12 +19,15 @@ In your Cordova project, run:
 `cordova plugin add cordova-plugin-bambuser`
 
 
-## Usage
+## Broadcaster usage
+
+broadcaster.js implements a wrapper for Bambuser's native live broadcasting SDK:s
+https://bambuser.com/docs/broadcasting/
+
+See [www/broadcaster.js](./www/broadcaster.js) for details.
 
 Use the Cordova-style callback-based methods of `window.bambuser`
 from within your Cordova application.
-
-See [www/broadcaster.js](./www/broadcaster.js) for details.
 
 
 ### Callback-based example
@@ -97,3 +100,6 @@ document.addEventListener('deviceready', async () => {
   }
 });
 ```
+
+Complete usage example:
+https://github.com/bambuser/bambuser-examplebroadcaster-ionic
