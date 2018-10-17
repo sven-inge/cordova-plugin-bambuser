@@ -4,7 +4,28 @@ var exec = require('cordova/exec');
 var utils = require('cordova/utils');
 
 var playerVisible = false;
-var togglingPlayer = false;
+var queue = Promise.resolve();
+
+var execQueue = function() {
+    var execArgs = Array.prototype.slice.call(arguments);
+    queue = queue.then(function() {
+        return new Promise(resolve => {
+            var userCb = execArgs.shift();
+            var userEb = execArgs.shift();
+            execArgs.unshift(function() {
+                // Custom errback that resolves the queue promise before triggering actual errback
+                resolve();
+                if (userEb) userEb.apply(null, arguments);
+            });
+            execArgs.unshift(function() {
+                // Custom callback that resolves the queue promise before triggering actual callback
+                resolve();
+                if (userCb) userCb.apply(null, arguments);
+            });
+            exec.apply(null, execArgs);
+        });
+    });
+};
 
 Player._applicationIdSet = false;
 
@@ -25,7 +46,7 @@ Player.setApplicationId = function(applicationId, successCallback, errorCallback
         return res;
     }
     Player._applicationIdSet = true;
-    exec(successCallback, errorCallback, 'CordovaBambuserPlayer', 'setApplicationId', [applicationId]);
+    execQueue(successCallback, errorCallback, 'CordovaBambuserPlayer', 'setApplicationId', [applicationId]);
     return res;
 }
 
@@ -34,27 +55,14 @@ Player.showPlayerBehindWebView = function(successCallback, errorCallback) {
     if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
-    if (togglingPlayer) {
-        console.log('ignored multiple calls to showPlayerBehindWebView');
-        errorCallback();
-        return res;
-    }
-    if (playerVisible) {
-        console.log('player is already visible');
-        errorCallback();
-        return res;
-    }
-    togglingPlayer = true;
-    exec(function() {
+    execQueue(function() {
         // console.log('showPlayerBehindWebView success');
-        togglingPlayer = false;
         playerVisible = true;
         if (successCallback) {
           successCallback.call(this, arguments);
         }
     }, function() {
         console.log('showPlayerBehindWebView failure');
-        togglingPlayer = false;
         if (errorCallback) {
           errorCallback.call(this, arguments);
         }
@@ -67,40 +75,19 @@ Player.hidePlayer = function(successCallback, errorCallback) {
     if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
-    if (togglingPlayer) {
-        console.log('ignored multiple calls to hidePlayer');
-        errorCallback();
-        return res;
-    }
-    if (!playerVisible) {
-        console.log('hidePlayer: player is already hidden');
-        errorCallback();
-        return res;
-    }
-    togglingPlayer = true;
-    exec(function() {
+    execQueue(function() {
         // console.log('hidePlayer success');
-        togglingPlayer = false;
         playerVisible = false;
         if (successCallback) {
           successCallback.call(this, arguments);
         }
     }, function() {
         console.log('hidePlayer failure');
-        togglingPlayer = false;
         if (errorCallback) {
           errorCallback.call(this, arguments);
         }
     }, 'CordovaBambuserPlayer', 'hidePlayer', []);
     return res;
-}
-
-Player.toggleplayer = function(successCallback, errorCallback) {
-    if (playerVisible) {
-        return Player.hidePlayer(successCallback, errorCallback);
-    } else {
-        return Player.showPlayerBehindWebView(successCallback, errorCallback);
-    }
 }
 
 Player.setAudioVolume = function(audioVolume, successCallback, errorCallback) {
@@ -112,7 +99,7 @@ Player.setAudioVolume = function(audioVolume, successCallback, errorCallback) {
         errorCallback('applicationId must be set first');
         return res;
     }
-    exec(successCallback, errorCallback, 'CordovaBambuserPlayer', 'setAudioVolume', [audioVolume]);
+    execQueue(successCallback, errorCallback, 'CordovaBambuserPlayer', 'setAudioVolume', [audioVolume]);
     return res;
 }
 
@@ -146,7 +133,7 @@ Player.loadBroadcast = function(resourceUri, options, successCallback, errorCall
         errorCallback('applicationId must be set first');
         return res;
     }
-    exec(successCallback, errorCallback, 'CordovaBambuserPlayer', 'loadBroadcast', [
+    execQueue(successCallback, errorCallback, 'CordovaBambuserPlayer', 'loadBroadcast', [
         resourceUri,
         options.requiredBroadcastState || 'any',
     ]);
@@ -162,7 +149,7 @@ Player.pause = function(successCallback, errorCallback) {
         errorCallback('applicationId must be set first');
         return res;
     }
-    exec(successCallback, errorCallback, 'CordovaBambuserPlayer', 'pause', []);
+    execQueue(successCallback, errorCallback, 'CordovaBambuserPlayer', 'pause', []);
     return res;
 };
 
@@ -175,7 +162,7 @@ Player.resume = function(successCallback, errorCallback) {
         errorCallback('applicationId must be set first');
         return res;
     }
-    exec(successCallback, errorCallback, 'CordovaBambuserPlayer', 'resume', []);
+    execQueue(successCallback, errorCallback, 'CordovaBambuserPlayer', 'resume', []);
     return res;
 };
 
@@ -188,7 +175,7 @@ Player.close = function(successCallback, errorCallback) {
         errorCallback('applicationId must be set first');
         return res;
     }
-    exec(successCallback, errorCallback, 'CordovaBambuserPlayer', 'close', []);
+    execQueue(successCallback, errorCallback, 'CordovaBambuserPlayer', 'close', []);
     return res;
 };
 
