@@ -154,26 +154,14 @@ Broadcaster.setTitle = function(title, successCallback, errorCallback) {
 }
 
 /**
- * Supported presets:
- * - auto
- *      Attempts to optimize for a high (adaptive) frame rate by also
- *      adapting the frame quality to the observed throughput. Uses
- *      useAutomaticResolutionSwitching() on Android and
- *      setVideoQualityPreset('kSessionPresetAuto') on iOS.
- *
- * Default: Constant (platfrom-specific default) frame quality
- * with adaptive frame rate.
+ * Deprecated: auto resolution is always used
  */
 Broadcaster.setVideoQualityPreset = function(preset, successCallback, errorCallback) {
     var res;
     if (!successCallback && window['Promise']) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
-    if (!Broadcaster._applicationIdSet) {
-        errorCallback('applicationId must be set first');
-        return res;
-    }
-    exec(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setVideoQualityPreset', [preset]);
+    successCallback();
     return res;
 }
 

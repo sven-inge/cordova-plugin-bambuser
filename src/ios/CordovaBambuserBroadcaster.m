@@ -86,19 +86,6 @@
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
-- (void) setVideoQualityPreset: (CDVInvokedUrlCommand*) command {
-    CDVPluginResult* result = nil;
-    NSString* preset = command.arguments[0];
-    if ([preset isEqualToString:@"auto"]) {
-        [self ensureLibbambuserIsBootstrapped];
-        [bambuserView setVideoQualityPreset: kSessionPresetAuto];
-        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    } else {
-        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
-    }
-    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-}
-
 - (void) startBroadcast: (CDVInvokedUrlCommand*) command {
     [self ensureLibbambuserIsBootstrapped];
     [bambuserView startBroadcasting];

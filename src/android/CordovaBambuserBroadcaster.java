@@ -158,26 +158,6 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             return true;
         }
 
-        if ("setVideoQualityPreset".equals(action)) {
-            final String preset = args.getString(0);
-            this.cordova.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (mBroadcaster == null) {
-                        callbackContext.error("Broadcaster is not initialized. Set applicationId first.");
-                        return;
-                    };
-                    if (Objects.equals("auto", preset)) {
-                        mBroadcaster.useAutomaticResolutionSwitching();
-                        callbackContext.success("Switched to video quality preset '" + preset + "'");
-                        return;
-                    }
-                    callbackContext.error("Unknown video quality preset " + preset);
-                }
-            });
-            return true;
-        }
-
         if ("startBroadcast".equals(action)) {
             this.cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
