@@ -10,7 +10,7 @@ Broadcaster._applicationIdSet = false;
 
 Broadcaster.setApplicationId = function(applicationId, successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (Broadcaster._applicationIdSet) {
@@ -29,7 +29,7 @@ Broadcaster.setApplicationId = function(applicationId, successCallback, errorCal
 
 Broadcaster.showViewfinderBehindWebView = function(successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (togglingViewfinder) {
@@ -62,7 +62,7 @@ Broadcaster.showViewfinderBehindWebView = function(successCallback, errorCallbac
 
 Broadcaster.hideViewfinder = function(successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (togglingViewfinder) {
@@ -103,7 +103,7 @@ Broadcaster.toggleViewfinder = function(successCallback, errorCallback) {
 
 Broadcaster.setCustomData = function(customData, successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (!Broadcaster._applicationIdSet) {
@@ -116,7 +116,7 @@ Broadcaster.setCustomData = function(customData, successCallback, errorCallback)
 
 Broadcaster.setPrivateMode = function(value, successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (!Broadcaster._applicationIdSet) {
@@ -129,7 +129,7 @@ Broadcaster.setPrivateMode = function(value, successCallback, errorCallback) {
 
 Broadcaster.setSendPosition = function(value, successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (!Broadcaster._applicationIdSet) {
@@ -142,7 +142,7 @@ Broadcaster.setSendPosition = function(value, successCallback, errorCallback) {
 
 Broadcaster.setTitle = function(title, successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (!Broadcaster._applicationIdSet) {
@@ -158,7 +158,7 @@ Broadcaster.setTitle = function(title, successCallback, errorCallback) {
  */
 Broadcaster.setVideoQualityPreset = function(preset, successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     successCallback();
@@ -167,7 +167,7 @@ Broadcaster.setVideoQualityPreset = function(preset, successCallback, errorCallb
 
 Broadcaster.startBroadcast = function(successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (!Broadcaster._applicationIdSet) {
@@ -213,7 +213,7 @@ Broadcaster.startBroadcast = function(successCallback, errorCallback) {
 
 Broadcaster.stopBroadcast = function(successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (!Broadcaster._applicationIdSet) {
@@ -234,7 +234,7 @@ Broadcaster.stopBroadcast = function(successCallback, errorCallback) {
 
 Broadcaster.switchCamera = function(successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (!Broadcaster._applicationIdSet) {

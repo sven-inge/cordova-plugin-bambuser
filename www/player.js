@@ -13,7 +13,7 @@ Player._applicationIdSet = false;
  */
 Player.setApplicationId = function(applicationId, successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (Player._applicationIdSet) {
@@ -31,7 +31,7 @@ Player.setApplicationId = function(applicationId, successCallback, errorCallback
 
 Player.showPlayerBehindWebView = function(successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (togglingPlayer) {
@@ -64,7 +64,7 @@ Player.showPlayerBehindWebView = function(successCallback, errorCallback) {
 
 Player.hidePlayer = function(successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (togglingPlayer) {
@@ -105,7 +105,7 @@ Player.toggleplayer = function(successCallback, errorCallback) {
 
 Player.setAudioVolume = function(audioVolume, successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (!Player._applicationIdSet) {
@@ -139,7 +139,7 @@ Player.loadBroadcast = function(resourceUri, options, successCallback, errorCall
     }
     if (!options) options = {};
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (!Player._applicationIdSet) {
@@ -155,7 +155,7 @@ Player.loadBroadcast = function(resourceUri, options, successCallback, errorCall
 
 Player.pause = function(successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (!Player._applicationIdSet) {
@@ -168,7 +168,7 @@ Player.pause = function(successCallback, errorCallback) {
 
 Player.resume = function(successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (!Player._applicationIdSet) {
@@ -181,7 +181,7 @@ Player.resume = function(successCallback, errorCallback) {
 
 Player.close = function(successCallback, errorCallback) {
     var res;
-    if (!successCallback && window['Promise']) {
+    if (!successCallback) {
         res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
     }
     if (!Player._applicationIdSet) {
