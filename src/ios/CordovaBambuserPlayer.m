@@ -82,7 +82,11 @@
     NSString* resourceUri = command.arguments[0];
     NSString* requiredBroadcastState = command.arguments[1];
     hasEmittedBroadcastLoaded = false;
-    // TODO: ...or reinitialize?
+    if (bambuserPlayer != nil) {
+      [bambuserPlayer stopVideo];
+      bambuserPlayer.delegate = nil;
+      bambuserPlayer = nil;
+    }
     [self ensureLibbambuserIsBootstrapped];
     if ([requiredBroadcastState isEqualToString:@"live"]) {
         bambuserPlayer.requiredBroadcastState = kBambuserBroadcastStateLive;
