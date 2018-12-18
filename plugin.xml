@@ -36,7 +36,7 @@
         <source-file src="src/android/CordovaBambuserBroadcaster.java" target-dir="src/com/bambuser/cordova" />
         <source-file src="src/android/CordovaBambuserPlayer.java" target-dir="src/com/bambuser/cordova" />
         <!-- the npm postinstall hook in package.json downloads and unzips the sdk -->
-        <resource-file src="libbambuser-android-0.9.14-181004/libbambuser-0.9.14.aar" target="libbambuser/libbambuser-0.9.14.aar" />
+        <resource-file src="libbambuser-android-0.9.15-181212/libbambuser-0.9.15.aar" target="libbambuser/libbambuser-0.9.14.aar" />
         <framework src="src/android/libbambuser.gradle" custom="true" type="gradleReference" />
     </platform>
     <platform name="ios">
