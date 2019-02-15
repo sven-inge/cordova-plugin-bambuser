@@ -21,6 +21,12 @@
     return self;
 }
 
+- (void) setPlayerDimensions {
+    if (bambuserPlayer != nil) {
+        bambuserPlayer.frame = CGRectMake(0, 0, self.webView.bounds.size.width, self.webView.bounds.size.height);
+    }
+}
+
 - (void) ensureLibbambuserIsBootstrapped {
     if (bambuserPlayer == nil) {
         bambuserPlayer = [[BambuserPlayer alloc] init];
@@ -33,7 +39,9 @@
         if (audioVolume != nil) {
             bambuserPlayer.volume = [audioVolume floatValue];
         }
+        [self.webView.superview insertSubview: bambuserPlayer belowSubview:self.webView];
     }
+    [self setPlayerDimensions];
 }
 
 - (void) setApplicationId: (CDVInvokedUrlCommand*) command {
@@ -54,8 +62,6 @@
     [self.webView setOpaque: NO];
     self.webView.backgroundColor = UIColor.clearColor;
     [self ensureLibbambuserIsBootstrapped];
-    [self.webView.superview insertSubview: bambuserPlayer belowSubview:self.webView];
-    bambuserPlayer.frame = CGRectMake(0, 0, self.webView.bounds.size.width, self.webView.bounds.size.height);
     [self.commandDelegate sendPluginResult: [CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId: command.callbackId];
 }
 
