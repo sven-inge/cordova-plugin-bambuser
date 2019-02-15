@@ -84,6 +84,7 @@
     hasEmittedBroadcastLoaded = false;
     if (bambuserPlayer != nil) {
       [bambuserPlayer stopVideo];
+      [bambuserPlayer removeFromSuperview];
       bambuserPlayer.delegate = nil;
       bambuserPlayer = nil;
     }
