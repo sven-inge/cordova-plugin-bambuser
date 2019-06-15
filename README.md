@@ -11,6 +11,7 @@
 cordova-plugin-bambuser
 -----------------------
 
+[![Build Status](https://travis-ci.org/sven-inge/cordova-plugin-bambuser.svg?branch=master)](https://travis-ci.org/sven-inge/cordova-plugin-bambuser)
 
 ## Installation
 
