@@ -1,0 +1,11 @@
+{
+  "name": "cordova-plugin-bambuser-tests",
+  "version": "0.9.5",
+  "author": "Bambuser AB",
+  "homepage": "https://bambuser.com",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ]
+}
