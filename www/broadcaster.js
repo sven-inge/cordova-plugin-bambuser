@@ -97,19 +97,6 @@ Broadcaster.setCustomData = function(customData, successCallback, errorCallback)
     return res;
 }
 
-Broadcaster.setPrivateMode = function(value, successCallback, errorCallback) {
-    var res;
-    if (!successCallback) {
-        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
-    }
-    if (!Broadcaster._applicationIdSet) {
-        errorCallback('applicationId must be set first');
-        return res;
-    }
-    execQueue(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setPrivateMode', [value]);
-    return res;
-}
-
 Broadcaster.setSendPosition = function(value, successCallback, errorCallback) {
     var res;
     if (!successCallback) {
