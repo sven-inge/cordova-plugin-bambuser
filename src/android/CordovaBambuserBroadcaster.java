@@ -10,7 +10,7 @@ import android.view.Display;
 import android.view.Surface;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-import android.widget.FrameLayout;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.bambuser.broadcaster.BroadcastStatus;
@@ -55,9 +55,9 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
                         return;
                     }
 
-                    FrameLayout layout = (FrameLayout) webView.getView().getParent();
+                    ViewGroup parentView = (ViewGroup) webView.getView().getParent();
                     RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-                    layout.addView(previewSurfaceView, 0, previewLayoutParams);
+                    parentView.addView(previewSurfaceView, 0, previewLayoutParams);
 
                     callbackContext.success("Viewfinder view added");
                 }
@@ -74,8 +74,8 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
                         return;
                     }
 
-                    FrameLayout layout = (FrameLayout) webView.getView().getParent();
-                    layout.removeView(previewSurfaceView);
+                    ViewGroup parentView = (ViewGroup) webView.getView().getParent();
+                    parentView.removeView(previewSurfaceView);
                     callbackContext.success("Viewfinder view removed");
                 }
             });
@@ -378,8 +378,8 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                FrameLayout layout = (FrameLayout) webView.getView().getParent();
-                previewSurfaceView = new SurfaceViewWithAutoAR(layout.getContext());
+                ViewGroup parentView = (ViewGroup) webView.getView().getParent();
+                previewSurfaceView = new SurfaceViewWithAutoAR(parentView.getContext());
                 previewSurfaceView.setCropToParent(true);
                 final Activity activity = cordova.getActivity();
 
@@ -388,7 +388,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
                 mBroadcaster.setRotation(mDefaultDisplay.getRotation());
                 mBroadcaster.setCameraSurface(previewSurfaceView);
 
-                mOrientationListener = new OrientationEventListener(layout.getContext()) {
+                mOrientationListener = new OrientationEventListener(parentView.getContext()) {
                     @Override
                     public void onOrientationChanged(int orientation) {
                         if (mBroadcaster != null && mBroadcaster.canStartBroadcasting()) {

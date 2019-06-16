@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.Display;
 import android.view.OrientationEventListener;
-import android.widget.FrameLayout;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -63,9 +63,9 @@ public class CordovaBambuserPlayer extends CordovaPlugin implements BroadcastPla
                         callbackContext.error("Player view not initialized.");
                         return;
                     }
-                    FrameLayout layout = (FrameLayout) webView.getView().getParent();
+                    ViewGroup parentView = (ViewGroup) webView.getView().getParent();
                     RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-                    layout.addView(playbackSurfaceView, 0, previewLayoutParams);
+                    parentView.addView(playbackSurfaceView, 0, previewLayoutParams);
                     callbackContext.success("Playback view added");
                 }
             });
@@ -80,8 +80,8 @@ public class CordovaBambuserPlayer extends CordovaPlugin implements BroadcastPla
                         callbackContext.error("Playback view not initialized.");
                         return;
                     }
-                    FrameLayout layout = (FrameLayout) webView.getView().getParent();
-                    layout.removeView(playbackSurfaceView);
+                    ViewGroup parentView = (ViewGroup) webView.getView().getParent();
+                    parentView.removeView(playbackSurfaceView);
                     callbackContext.success("Viewfinder view removed");
                 }
             });
@@ -341,8 +341,8 @@ public class CordovaBambuserPlayer extends CordovaPlugin implements BroadcastPla
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                FrameLayout layout = (FrameLayout) webView.getView().getParent();
-                playbackSurfaceView = new SurfaceViewWithAutoAR(layout.getContext());
+                ViewGroup parentView = (ViewGroup) webView.getView().getParent();
+                playbackSurfaceView = new SurfaceViewWithAutoAR(parentView.getContext());
                 playbackSurfaceView.setCropToParent(true);
             }
         });
