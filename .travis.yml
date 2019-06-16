@@ -1,6 +1,31 @@
 sudo: false
-env:
-  global:
+
+matrix:
+  include:
+
+  # Cordova / iOS
+  - os: osx
+    osx_image: xcode10.2
+    language: objective-c
+    env:
+    - PLATFORM=ios
+    - TOOLCHAIN=cordova
+    before_install:
+    - nvm install 8.16.0
+    - nvm use 8.16.0
+    - npm install -g cordova github:apache/cordova-paramedic ios-deploy
+    install:
+    - npm install
+    script:
+    - cordova-paramedic --platform ios --plugin $PWD
+
+  # Cordova / Android
+  - os: linux
+    language: android
+    jdk: oraclejdk8
+    env:
+    - PLATFORM=android
+    - TOOLCHAIN=cordova
     - ADB_INSTALL_TIMEOUT=8
     - ABI=x86_64
     - API=25
@@ -9,18 +34,6 @@ env:
     - ANDROID_HOME=/usr/local/android-sdk
     - TOOLS=${ANDROID_HOME}/tools
     - PATH=${ANDROID_HOME}:${ANDROID_HOME}/emulator:${TOOLS}:${TOOLS}/bin:${ANDROID_HOME}/platform-tools:${PATH}
-matrix:
-  include:
-  - env: PLATFORM=ios
-    os: osx
-    osx_image: xcode10.2
-    language: objective-c
-  - env:
-    - PLATFORM=android
-    os: linux
-    # dist: xenial
-    language: android
-    jdk: oraclejdk8
     before_install:
     # https://github.com/ankidroid/Anki-Android/blob/master/.travis.yml
     # https://travis-ci.community/t/is-android-28-emulator-supported/1718/5
@@ -37,18 +50,10 @@ matrix:
     - emulator -verbose -avd test -no-accel -no-snapshot -no-window $AUDIO -camera-back none -camera-front none -selinux permissive -qemu -m 2048 &
     - android-wait-for-emulator
     - adb shell input keyevent 82 &
-android:
-  components:
-  - tools
-  licenses:
-  - 'android-sdk-preview-license-.+'
-  - 'android-sdk-license-.+'
-  - 'google-gdk-license-.+'
-install:
-- nvm install 8.16.0
-- nvm use 8.16.0
-- if [[ "$PLATFORM" =~ ios ]]; then npm install -g ios-deploy; fi
-- npm install -g cordova github:apache/cordova-paramedic
-- npm install
-script:
-- cordova-paramedic --platform $PLATFORM --plugin $PWD
+    - nvm install 8.16.0
+    - nvm use 8.16.0
+    - npm install -g cordova github:apache/cordova-paramedic
+    install:
+    - npm install
+    script:
+    - cordova-paramedic --platform android --plugin $PWD
