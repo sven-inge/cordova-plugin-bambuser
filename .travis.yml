@@ -57,3 +57,61 @@ matrix:
     - npm install
     script:
     - cordova-paramedic --platform android --plugin $PWD
+
+  # Capacitor / iOS
+  - os: osx
+    osx_image: xcode10.2
+    language: objective-c
+    env:
+    - PLATFORM=ios
+    - TOOLCHAIN=capacitor
+    before_install:
+    - nvm install 8.16.0
+    - nvm use 8.16.0
+    install:
+    - export CORDOVA_PLUGIN_BAMBUSER_PATH=$PWD
+    - cd /tmp && npx @capacitor/cli create --npm-client npm captest captest com.example.captest
+    - cd /tmp/captest && npx cap add $PLATFORM
+    script:
+    - cd /tmp/captest && npm install $CORDOVA_PLUGIN_BAMBUSER_PATH
+    - cd /tmp/captest && npx cap sync
+    - cd /tmp/captest && npx cap copy $PLATFORM
+
+    # Build XCode project
+    - cd /tmp/captest/ios/App && pod install
+    - cd /tmp/captest/ios/App && xcodebuild -workspace App.xcworkspace -scheme App -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+
+  # Capacitor / Android
+  - os: linux
+    language: android
+    jdk: oraclejdk8
+    env:
+    - PLATFORM=android
+    - TOOLCHAIN=capacitor
+    - ANDROID_API_LEVEL=28
+    - ANDROID_BUILD_TOOLS_VERSION=28.0.3
+    android:
+      components:
+      - tools
+      - platform-tools-$ANDROID_BUILD_TOOLS_VERSION
+      - build-tools-$ANDROID_BUILD_TOOLS_VERSION
+      - android-$ANDROID_API_LEVEL
+      - sys-img-x86-android-$ANDROID_API_LEVEL
+      licenses:
+      - 'android-sdk-preview-license-.+'
+      - 'android-sdk-license-.+'
+      - 'google-gdk-license-.+'
+    before_install:
+    - nvm install 8.16.0
+    - nvm use 8.16.0
+    install:
+    - export CORDOVA_PLUGIN_BAMBUSER_PATH=$PWD
+    - cd /tmp && npx @capacitor/cli create --npm-client npm captest captest com.example.captest
+    - cd /tmp/captest && npx cap add $PLATFORM
+    script:
+    - cd /tmp/captest && npm install $CORDOVA_PLUGIN_BAMBUSER_PATH
+    - cd /tmp/captest && npx cap sync
+    - cd /tmp/captest && npx cap copy $PLATFORM
+
+    # Build Android project
+    - cd /tmp/captest/android && ./gradlew clean build --quiet --stacktrace
