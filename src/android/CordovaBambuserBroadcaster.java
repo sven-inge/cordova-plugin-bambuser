@@ -55,9 +55,8 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
                         return;
                     }
 
-                    FrameLayout layout = (FrameLayout) webView.getView().getParent();
                     RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-                    layout.addView(previewSurfaceView, 0, previewLayoutParams);
+                    webView.getView().getParent().addView(previewSurfaceView, 0, previewLayoutParams);
 
                     callbackContext.success("Viewfinder view added");
                 }
