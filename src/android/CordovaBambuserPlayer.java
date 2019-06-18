@@ -63,6 +63,7 @@ public class CordovaBambuserPlayer extends CordovaPlugin implements BroadcastPla
                         callbackContext.error("Player view not initialized.");
                         return;
                     }
+                    webView.getView().setBackgroundColor(android.R.color.transparent);
                     ViewGroup parentView = (ViewGroup) webView.getView().getParent();
                     RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
                     parentView.addView(playbackSurfaceView, 0, previewLayoutParams);

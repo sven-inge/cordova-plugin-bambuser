@@ -54,7 +54,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
                         callbackContext.error("Viewfinder view not initialized. Set applicationId first.");
                         return;
                     }
-
+                    webView.getView().setBackgroundColor(android.R.color.transparent);
                     ViewGroup parentView = (ViewGroup) webView.getView().getParent();
                     RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
                     parentView.addView(previewSurfaceView, 0, previewLayoutParams);
