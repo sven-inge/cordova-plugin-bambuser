@@ -11,6 +11,7 @@
 - (void) setCustomData: (CDVInvokedUrlCommand*) command;
 - (void) setSendPosition: (CDVInvokedUrlCommand*) command;
 - (void) setTitle: (CDVInvokedUrlCommand*) command;
+- (void) setAuthor: (CDVInvokedUrlCommand*) command;
 - (void) startBroadcast: (CDVInvokedUrlCommand*) command;
 - (void) stopBroadcast: (CDVInvokedUrlCommand*) command;
 - (void) switchCamera: (CDVInvokedUrlCommand*) command;
