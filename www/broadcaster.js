@@ -123,6 +123,19 @@ Broadcaster.setTitle = function(title, successCallback, errorCallback) {
     return res;
 }
 
+Broadcaster.setAuthor = function(author, successCallback, errorCallback) {
+    var res;
+    if (!successCallback) {
+        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
+    }
+    if (!Broadcaster._applicationIdSet) {
+        errorCallback('applicationId must be set first');
+        return res;
+    }
+    execQueue(successCallback, errorCallback, 'CordovaBambuserBroadcaster', 'setAuthor', [author]);
+    return res;
+}
+
 /**
  * Deprecated: auto resolution is always used
  */

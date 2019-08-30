@@ -86,6 +86,19 @@
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
+- (void) setAuthor: (CDVInvokedUrlCommand*) command {
+    CDVPluginResult* result = nil;
+    NSString* author = command.arguments[0];
+    if (author != nil) {
+        [self ensureLibbambuserIsBootstrapped];
+        bambuserView.author = author;
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    } else {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    }
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+}
+
 - (void) startBroadcast: (CDVInvokedUrlCommand*) command {
     [self ensureLibbambuserIsBootstrapped];
     [bambuserView startBroadcasting];
