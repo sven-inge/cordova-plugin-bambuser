@@ -61,10 +61,7 @@ matrix:
     - npm install
     script:
     # verify standalone
-    - cordova-paramedic --platform android --plugin $PWD
-    # verify with other camera plugins
-    - cordova-paramedic --platform android --plugin $PWD --plugin cordova-plugin-camera
-    - cordova-paramedic --platform android --plugin $PWD --plugin cordova-plugin-qrscanner
+    - cordova-paramedic --platform android --plugin cordova-plugin-qrscanner
 
 
   # Capacitor / iOS
