@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="cordova-plugin-bambuser" version="0.9.8">
+        id="cordova-plugin-bambuser" version="0.9.9">
     <name>Bambuser Mobile SDK</name>
     <description>Cordova plugin for Bambuser Mobile SDK</description>
     <keywords>cordova,bambuser,camera</keywords>
