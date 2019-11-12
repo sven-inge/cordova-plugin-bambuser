@@ -18,6 +18,7 @@
 - (void) onConnectionError: (CDVInvokedUrlCommand*) command;
 - (void) onConnectionStatusChange: (CDVInvokedUrlCommand*) command;
 - (void) onOrientationChange: (CDVInvokedUrlCommand*) command;
+- (void) toggleTorchLight: (CDVInvokedUrlCommand*) command;
 
 // BambuserViewDelegate
 - (void) bambuserError: (enum BambuserError)errorCode message:(NSString*)errorMessage;
