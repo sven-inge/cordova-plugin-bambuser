@@ -228,6 +228,23 @@ Broadcaster.switchCamera = function(successCallback, errorCallback) {
     return res;
 };
 
+Broadcaster.toggleTorchLight = function(successCallback, errorCallback) {
+    var res;
+    if (!successCallback) {
+        res = new Promise(function (resolve, reject) { successCallback = resolve; errorCallback = reject; });
+    }
+    execQueue(function() {
+        if (successCallback) {
+          successCallback.call(this, arguments);
+        }
+    }, function() {
+        if (errorCallback) {
+          errorCallback.call(this, arguments);
+        }
+    }, 'CordovaBambuserBroadcaster', 'toggleTorchLight', []);
+    return res;
+}
+
 Broadcaster._eventListeners = {};
 
 Broadcaster.addEventListener = function(event, successCallback, errorCallback) {

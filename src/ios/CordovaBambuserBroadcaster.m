@@ -110,6 +110,11 @@
     }
 }
 
+- (void) toggleTorchLight: (CDVInvokedUrlCommand*) command {
+    bambuserView.torch = !bambuserView.torch;
+    [self.commandDelegate sendPluginResult: [CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId: command.callbackId];
+}
+
 - (void) stopBroadcast: (CDVInvokedUrlCommand*) command {
     [self ensureLibbambuserIsBootstrapped];
     [bambuserView stopBroadcasting];
