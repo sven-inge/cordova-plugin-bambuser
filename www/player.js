@@ -9,7 +9,7 @@ var queue = Promise.resolve();
 var execQueue = function() {
     var execArgs = Array.prototype.slice.call(arguments);
     queue = queue.then(function() {
-        return new Promise(resolve => {
+        return new Promise(function(resolve) {
             var userCb = execArgs.shift();
             var userEb = execArgs.shift();
             execArgs.unshift(function() {
