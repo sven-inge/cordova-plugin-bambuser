@@ -8,7 +8,7 @@ var sdks = {
     url: 'https://dist.bambuser.com/android_sdk/libbambuser-android-0.9.17-190319.zip',
   },
   ios: {
-    url: 'https://dist.bambuser.com/ios_sdk/libbambuser-ios-0.9.23-190516.zip',
+    url: 'https://dist.bambuser.com/ios_sdk/libbambuser-ios-0.9.24-191008.zip',
   },
 };
 
