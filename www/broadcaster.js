@@ -305,6 +305,14 @@ Broadcaster._ensureSubscribed = function() {
     }, function(e) {
         console.log('BambuserBroadcaster: failed to subscribe to onConnectionStatusChange', e);
     }, 'CordovaBambuserBroadcaster', 'onConnectionStatusChange', []);
+
+    exec(function(status) {
+        console.log('broadcastIdAvailable: ' + status);
+        Broadcaster._emitEvent('broadcastIdAvailable', status);
+    }, function(e) {
+        console.log('BambuserBroadcaster: failed to subscribe to onBroadcastIdAvailable', e);
+    }, 'CordovaBambuserBroadcaster', 'onBroadcastIdAvailable', []);
+
 };
 
 window.addEventListener("orientationchange", function() {

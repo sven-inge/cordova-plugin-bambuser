@@ -4,6 +4,7 @@
     UIColor *originalBackgroundColor;
     NSString *onConnectionErrorCallbackId;
     NSString *onConnectionStatusChangeCallbackId;
+    NSString *onBroadcastIdAvailableCallbackId;
 }
 
 - (id) init {
@@ -146,6 +147,10 @@
     onConnectionStatusChangeCallbackId = command.callbackId;
 }
 
+- (void) onBroadcastIdAvailable: (CDVInvokedUrlCommand*) command {
+    onBroadcastIdAvailableCallbackId = command.callbackId;
+}
+
 - (void) onOrientationChange: (CDVInvokedUrlCommand*) command {
     // Web view orientation changed - update viewfinder
     [bambuserView setOrientation: [UIApplication sharedApplication].statusBarOrientation];
@@ -178,6 +183,15 @@
         [result setKeepCallbackAsBool:true];
         [self.commandDelegate sendPluginResult: result callbackId: onConnectionStatusChangeCallbackId];
     }
+}
+
+- (void) broadcastIdReceived: (NSString *) broadcastId {
+  NSLog(@"Received broadcastId: %@", broadcastId);
+  if (onBroadcastIdAvailableCallbackId != nil) {
+      CDVPluginResult *result = [CDVPluginResult resultWithStatus:(CDVCommandStatus)CDVCommandStatus_OK messageAsString:broadcastId];
+      [result setKeepCallbackAsBool:true];
+      [self.commandDelegate sendPluginResult: result callbackId: onBroadcastIdAvailableCallbackId];
+  }
 }
 
 @end

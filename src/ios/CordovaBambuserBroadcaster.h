@@ -18,6 +18,7 @@
 - (void) switchCamera: (CDVInvokedUrlCommand*) command;
 - (void) onConnectionError: (CDVInvokedUrlCommand*) command;
 - (void) onConnectionStatusChange: (CDVInvokedUrlCommand*) command;
+- (void) onBroadcastIdAvailable: (CDVInvokedUrlCommand*) command;
 - (void) onOrientationChange: (CDVInvokedUrlCommand*) command;
 - (void) toggleTorchLight: (CDVInvokedUrlCommand*) command;
 
@@ -25,5 +26,6 @@
 - (void) bambuserError: (enum BambuserError)errorCode message:(NSString*)errorMessage;
 - (void) broadcastStarted;
 - (void) broadcastStopped;
+- (void) broadcastIdReceived: (NSString *) broadcastId;
 
 @end

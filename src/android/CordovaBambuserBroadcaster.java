@@ -279,6 +279,16 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
             return true;
         }
 
+        if ("onBroadcastIdAvailable".equals(action)) {
+            this.cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    self.onBroadcastIdAvailableCallbackContext = callbackContext;
+                }
+            });
+            return true;
+        }
+
         if ("onOrientationChange".equals(action)) {
             // Web view orientation changed - handled by OrientationEventListener - do nothing
             return true;
@@ -417,6 +427,11 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
     @Override
     public void onBroadcastIdAvailable(String broadcastId) {
         log("Broadcast with broadcastId " + broadcastId + " published");
+        if (this.onBroadcastIdAvailableCallbackContext != null) {
+            PluginResult result = new PluginResult(PluginResult.Status.OK, broadcastId);
+            result.setKeepCallback(true);
+            this.onBroadcastIdAvailableCallbackContext.sendPluginResult(result);
+        }
     }
 
     /**
@@ -518,6 +533,7 @@ public class CordovaBambuserBroadcaster extends CordovaPlugin implements Broadca
     private SurfaceViewWithAutoAR previewSurfaceView;
     private CallbackContext onConnectionErrorCallbackContext;
     private CallbackContext onConnectionStatusChangeCallbackContext;
+    private CallbackContext onBroadcastIdAvailableCallbackContext;
     private boolean mInPermissionRequest = false;
     private Display mDefaultDisplay;
     private OrientationEventListener mOrientationListener;
